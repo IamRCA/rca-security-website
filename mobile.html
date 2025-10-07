@@ -1476,7 +1476,9 @@ Will run 8 OpenMP threads
                 this.container = container;
                 this.canvas = document.createElement('canvas');
                 this.ctx = this.canvas.getContext('2d');
+                this.canvas.style.border = '1px solid red'; // Debug: make canvas visible
                 this.container.appendChild(this.canvas);
+                console.log('MatrixRain created, canvas added to:', container.id);
                 
                 // Matrix characters
                 this.matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -1521,10 +1523,14 @@ Will run 8 OpenMP threads
                 this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Add new drops randomly
+                // Debug: Draw a simple test pattern to verify canvas works
+                this.ctx.fillStyle = 'rgba(255, 0, 0, 0.3)';
+                this.ctx.fillRect(10, 10, 20, 20);
+                
+                // Add new drops randomly - much more aggressive
                 for (let i = 0; i < this.columnPositions.length; i++) {
                     const x = this.columnPositions[i];
-                    if (x < this.canvas.width && Math.random() > 0.92) {
+                    if (x < this.canvas.width && Math.random() > 0.7) { // 30% chance instead of 8%
                         // Create new drop
                         this.drops.push({
                             x: x,
@@ -1532,6 +1538,11 @@ Will run 8 OpenMP threads
                             speed: this.isLowEnd ? 1.5 : (this.isMobile ? 2.5 : 3.0)
                         });
                     }
+                }
+                
+                // Debug: Log drop count every 60 frames
+                if (Math.random() < 0.01) {
+                    console.log(`Active drops: ${this.drops.length}, Canvas size: ${this.canvas.width}x${this.canvas.height}`);
                 }
                 
                 // Update and draw all drops
