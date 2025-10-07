@@ -564,7 +564,7 @@ function initLoadingSequence() {
         localStorage.removeItem('rca_demo_seen');
     }
     const hasSeenDemo = localStorage.getItem('rca_demo_seen') === 'true';
-    const skipDemo = urlParams.get('skip') === 'true' || 
+    const skipDemo = true || urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
                     window.location.pathname.includes('/home') ||
