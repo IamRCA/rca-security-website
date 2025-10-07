@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCA Security Group - Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0066ff;
+            --secondary-color: #00aaff;
+            --accent-color: #28a745;
+            --text-color: #e0e0e0;
+            --bg-color: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), #1a1a1a);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 1rem;
+            border-bottom: 1px solid var(--primary-color);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            position: relative;
+        }
+
+        .logo-icon::before,
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 1px;
+        }
+
+        .logo-icon::before {
+            top: -2px;
+            right: -2px;
+            animation: pixelPulse 2s ease-in-out infinite;
+        }
+
+        .logo-icon::after {
+            bottom: -2px;
+            left: -2px;
+            animation: pixelPulse 2s ease-in-out infinite 0.5s;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            padding: 2rem 1rem;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(0, 102, 255, 0.2);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero-mobile {
+            padding: 120px 1rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-color), #1a1a1a);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero-mobile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 102, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 170, 255, 0.05) 0%, transparent 50%);
+            animation: heroGlow 8s ease-in-out infinite alternate;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #fff, var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn-mobile {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary-mobile {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-primary-mobile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-secondary-mobile {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary-mobile:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Services Section */
+        .services-mobile {
+            padding: 3rem 1rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .service-card-mobile {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .service-card-mobile:hover {
+            transform: translateY(-5px);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .service-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-description {
+            color: var(--text-color);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Pricing Section */
+        .pricing-mobile {
+            padding: 3rem 1rem;
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        .pricing-cards-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .pricing-card-mobile {
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+            position: relative;
+        }
+
+        .pricing-card-mobile.featured {
+            border-color: var(--accent-color);
+            box-shadow: 0 4px 20px rgba(40, 167, 69, 0.3);
+        }
+
+        .pricing-tier {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-name {
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact Section */
+        .contact-mobile {
+            padding: 3rem 1rem;
+        }
+
+        .contact-form-mobile {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+        }
+
+        .form-group-mobile {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-mobile label {
+            display: block;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group-mobile input,
+        .form-group-mobile textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(20, 20, 20, 0.8);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group-mobile input:focus,
+        .form-group-mobile textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .form-group-mobile textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer-mobile {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid var(--primary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes pixelPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.8); }
+        }
+
+        @keyframes heroGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hide sections initially for fade-in effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Navigation -->
+    <nav class="mobile-nav">
+        <div class="nav-content">
+            <div class="mobile-logo">
+                <div class="logo-icon">R</div>
+                <div class="logo-text">RCA SECURITY</div>
+            </div>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+        </div>
+        <div class="mobile-menu" id="mobile-menu">
+            <a href="#home" onclick="closeMenu()">Home</a>
+            <a href="#services" onclick="closeMenu()">Services</a>
+            <a href="#pricing" onclick="closeMenu()">Pricing</a>
+            <a href="#contact" onclick="closeMenu()">Contact</a>
+            <a href="index.html?skip=true" onclick="closeMenu()">🖥️ Desktop Version</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-mobile">
+        <div class="hero-content">
+            <h1 class="hero-title">RCA Security Group</h1>
+            <p class="hero-subtitle">
+                Professional cybersecurity consulting that protects your business from real-world threats. 
+                We don't just secure systems - we secure your future.
+            </p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn-mobile btn-primary-mobile">
+                    🛡️ Our Services
+                </a>
+                <a href="#contact" class="btn-mobile btn-secondary-mobile">
+                    📞 Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-mobile">
+        <h2 class="section-title">Our Services</h2>
+        
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🛡️</div>
+            <h3 class="service-title">Cyber Risk & Compliance</h3>
+            <p class="service-description">
+                NIST 800-171/CMMC readiness, risk assessments, policy development, and vendor risk management.
+            </p>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🔍</div>
+            <h3 class="service-title">Security Assessments</h3>
+            <p class="service-description">
+                External & internal assessments, firewall reviews, endpoint protection tuning, and secure configuration audits.
+            </p>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🔐</div>
+            <h3 class="service-title">Access & Identity Controls</h3>
+            <p class="service-description">
+                Microsoft 365/Entra AD hardening, MFA setup, conditional access, and least privilege enforcement.
+            </p>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">📊</div>
+            <h3 class="service-title">Security Operations</h3>
+            <p class="service-description">
+                SOC oversight, incident response planning, tabletop exercises, and vulnerability management programs.
+            </p>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">💼</div>
+            <h3 class="service-title">M&A & IT Integration</h3>
+            <p class="service-description">
+                Pre-acquisition security reviews, ITAR/FedRAMP segmentation, and post-merger infrastructure integration.
+            </p>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="pricing-mobile">
+        <h2 class="section-title">Pricing Packages</h2>
+        
+        <div class="pricing-cards-mobile">
+            <div class="pricing-card-mobile fade-in">
+                <div class="pricing-tier">Bronze</div>
+                <div class="pricing-name">Security Health Check</div>
+                <div class="pricing-price">$4,500</div>
+                <ul class="pricing-features">
+                    <li>1-day security review</li>
+                    <li>Executive summary report</li>
+                    <li>Top 5 findings</li>
+                    <li>On-site or remote</li>
+                </ul>
+                <a href="#contact" class="btn-mobile btn-primary-mobile">Get Started</a>
+            </div>
+
+            <div class="pricing-card-mobile featured fade-in">
+                <div class="pricing-tier">Silver</div>
+                <div class="pricing-name">Compliant Foundations</div>
+                <div class="pricing-price">$9,500</div>
+                <ul class="pricing-features">
+                    <li>Everything in Bronze</li>
+                    <li>NIST 800-171 gap analysis</li>
+                    <li>Prioritized roadmap</li>
+                    <li>Remediation steps</li>
+                </ul>
+                <a href="#contact" class="btn-mobile btn-primary-mobile">Get Started</a>
+            </div>
+
+            <div class="pricing-card-mobile fade-in">
+                <div class="pricing-tier">Gold</div>
+                <div class="pricing-name">Managed Compliance</div>
+                <div class="pricing-price">$16,000</div>
+                <ul class="pricing-features">
+                    <li>Everything in Silver</li>
+                    <li>Policy drafting (5 docs)</li>
+                    <li>1 month implementation</li>
+                    <li>20 hours support</li>
+                </ul>
+                <a href="#contact" class="btn-mobile btn-primary-mobile">Get Started</a>
+            </div>
+
+            <div class="pricing-card-mobile fade-in">
+                <div class="pricing-tier">Platinum</div>
+                <div class="pricing-name">End-to-End GRC</div>
+                <div class="pricing-price">$32,000</div>
+                <ul class="pricing-features">
+                    <li>Everything in Gold</li>
+                    <li>AuditBoard setup</li>
+                    <li>3-month retainer</li>
+                    <li>40 hours support</li>
+                </ul>
+                <a href="#contact" class="btn-mobile btn-primary-mobile">Get Started</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-mobile">
+        <h2 class="section-title">Get Started Today</h2>
+        
+        <div class="contact-form-mobile fade-in">
+            <form id="contact-form-mobile">
+                <div class="form-group-mobile">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your security needs..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-mobile btn-primary-mobile">Send Message</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-mobile">
+        <div class="footer-logo">
+            <div class="logo-icon">R</div>
+            <div class="logo-text">RCA SECURITY GROUP</div>
+        </div>
+        <p class="footer-text">
+            Professional cybersecurity consulting for modern businesses.<br>
+            © 2024 RCA Security Group. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        function toggleMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('active');
+        }
+
+        function closeMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.remove('active');
+        }
+
+        // Fade-in animation on scroll
+        function handleFadeIn() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Contact form handling
+        document.getElementById('contact-form-mobile').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const company = formData.get('company');
+            const message = formData.get('message');
+            
+            // Simple validation
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Create mailto link
+            const subject = `Contact from ${name}${company ? ` at ${company}` : ''}`;
+            const body = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`;
+            
+            const mailtoLink = `mailto:contact@rcasecurity.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            
+            // Open email client
+            window.location.href = mailtoLink;
+            
+            // Show success message
+            alert('Thank you! Your email client should open with a pre-filled message.');
+        });
+
+        // Initialize animations
+        window.addEventListener('scroll', handleFadeIn);
+        window.addEventListener('load', handleFadeIn);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
