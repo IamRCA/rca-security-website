@@ -538,12 +538,14 @@
             backdrop-filter: blur(10px);
             box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
             position: relative;
+            animation: pricingGlow 4s ease-in-out infinite;
         }
 
         .pricing-card-mobile.featured {
             border-color: var(--primary-color);
             box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4);
             background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 170, 255, 0.02));
+            animation: featuredPricingGlow 3s ease-in-out infinite;
         }
 
         .pricing-tier {
@@ -794,6 +796,34 @@
         @keyframes dividerPulse {
             0%, 100% { opacity: 0.2; }
             50% { opacity: 0.5; }
+        }
+
+        @keyframes pricingGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1),
+                           0 0 20px rgba(0, 102, 255, 0.2);
+                border-color: rgba(0, 102, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 8px 25px rgba(0, 102, 255, 0.3),
+                           0 0 40px rgba(0, 102, 255, 0.4);
+                border-color: rgba(0, 102, 255, 0.6);
+            }
+        }
+
+        @keyframes featuredPricingGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4),
+                           0 0 30px rgba(0, 102, 255, 0.5),
+                           0 0 50px rgba(0, 102, 255, 0.3);
+                border-color: var(--primary-color);
+            }
+            50% { 
+                box-shadow: 0 8px 30px rgba(0, 102, 255, 0.6),
+                           0 0 50px rgba(0, 102, 255, 0.7),
+                           0 0 80px rgba(0, 102, 255, 0.4);
+                border-color: rgba(0, 170, 255, 1);
+            }
         }
 
         /* Testimonials Carousel */
@@ -1246,22 +1276,38 @@
             observer.observe(el);
         });
 
-        // Hide floating CTA when contact form is visible
+        // Hide floating CTA when hero buttons are visible or contact form is visible
+        const heroButtons = document.querySelector('.hero-buttons');
         const contactSection = document.querySelector('#contact');
         const floatingCTA = document.querySelector('.floating-cta');
         
         const ctaObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    floatingCTA.style.opacity = '0';
-                    floatingCTA.style.pointerEvents = 'none';
-                } else {
-                    floatingCTA.style.opacity = '1';
-                    floatingCTA.style.pointerEvents = 'auto';
+                if (entry.target === heroButtons) {
+                    // Hero buttons are visible, hide floating CTA
+                    if (entry.isIntersecting) {
+                        floatingCTA.style.opacity = '0';
+                        floatingCTA.style.pointerEvents = 'none';
+                    } else {
+                        floatingCTA.style.opacity = '1';
+                        floatingCTA.style.pointerEvents = 'auto';
+                    }
+                } else if (entry.target === contactSection) {
+                    // Contact form is visible, hide floating CTA
+                    if (entry.isIntersecting) {
+                        floatingCTA.style.opacity = '0';
+                        floatingCTA.style.pointerEvents = 'none';
+                    } else {
+                        floatingCTA.style.opacity = '1';
+                        floatingCTA.style.pointerEvents = 'auto';
+                    }
                 }
             });
         }, { threshold: 0.1 });
 
+        if (heroButtons) {
+            ctaObserver.observe(heroButtons);
+        }
         if (contactSection) {
             ctaObserver.observe(contactSection);
         }
