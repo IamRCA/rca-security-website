@@ -559,6 +559,12 @@ function initLoadingSequence() {
     
     // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check if user wants the new split-screen demo
+    if (urlParams.get('demo') === 'split') {
+        window.location.href = 'split-screen-demo.html';
+        return;
+    }
     const skipDemo = urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
@@ -595,6 +601,7 @@ function initLoadingSequence() {
 
 function setupIntroScreen() {
     const startBtn = document.getElementById('start-animation');
+    const splitBtn = document.getElementById('start-split-demo');
     const skipBtn = document.getElementById('skip-animation');
     const introScreen = document.getElementById('intro-screen');
     const loadingContent = document.querySelector('.loading-content');
@@ -611,6 +618,14 @@ function setupIntroScreen() {
             loadingContent.style.display = 'flex';
             startEpicAnimation();
         }, 1000);
+    });
+    
+    splitBtn.addEventListener('click', () => {
+        // Mark demo as seen
+        localStorage.setItem('rca_demo_seen', 'true');
+        
+        // Redirect to split-screen demo
+        window.location.href = 'split-screen-demo.html';
     });
     
     skipBtn.addEventListener('click', () => {
