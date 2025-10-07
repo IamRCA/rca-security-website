@@ -183,6 +183,37 @@
             animation: scanLines 0.1s linear infinite;
         }
 
+        /* Mobile Particle System */
+        .mobile-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        .particle:nth-child(odd) {
+            animation-duration: 8s;
+            animation-delay: -2s;
+        }
+
+        .particle:nth-child(3n) {
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
         .hero-content {
             position: relative;
             z-index: 2;
@@ -201,9 +232,78 @@
 
         .floating-icon {
             position: absolute;
-            font-size: 1.5rem;
-            color: rgba(0, 102, 255, 0.3);
             animation: floatIcon 8s ease-in-out infinite;
+        }
+
+        .cyber-shield {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            opacity: 0.3;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .cyber-shield-small {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            opacity: 0.4;
+            box-shadow: 0 0 8px rgba(0, 102, 255, 0.4);
+        }
+
+        .cyber-lock {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            position: relative;
+            opacity: 0.3;
+        }
+
+        .cyber-lock::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 12px;
+            border: 2px solid var(--primary-color);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .cyber-target {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: relative;
+            opacity: 0.3;
+        }
+
+        .cyber-target::before,
+        .cyber-target::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .cyber-target::before {
+            width: 16px;
+            height: 16px;
+        }
+
+        .cyber-target::after {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
         }
 
         .floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
@@ -223,6 +323,39 @@
         .data-stream:nth-child(6) { top: 10%; left: 20%; animation-delay: 0s; }
         .data-stream:nth-child(7) { top: 30%; right: 25%; animation-delay: 1s; }
         .data-stream:nth-child(8) { top: 70%; left: 70%; animation-delay: 2s; }
+
+        .cyber-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            opacity: 0.2;
+            animation: cyberLinePulse 4s ease-in-out infinite;
+        }
+
+        .cyber-line.horizontal {
+            width: 60px;
+            height: 1px;
+            top: 25%;
+            left: 30%;
+            animation-delay: 0.5s;
+        }
+
+        .cyber-line.vertical {
+            width: 1px;
+            height: 40px;
+            top: 45%;
+            right: 20%;
+            background: linear-gradient(180deg, transparent, var(--primary-color), transparent);
+            animation-delay: 1.5s;
+        }
+
+        .cyber-line.diagonal {
+            width: 40px;
+            height: 1px;
+            top: 65%;
+            left: 60%;
+            transform: rotate(45deg);
+            animation-delay: 2.5s;
+        }
 
         .hero-title {
             font-family: 'Orbitron', monospace;
@@ -264,6 +397,30 @@
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-mobile::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-mobile:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-mobile:active {
+            transform: scale(0.98);
         }
 
         .btn-primary-mobile {
@@ -519,6 +676,24 @@
             100% { transform: translateY(100vh); opacity: 0; }
         }
 
+        @keyframes cyberLinePulse {
+            0%, 100% { opacity: 0.1; transform: scaleX(0.8); }
+            50% { opacity: 0.4; transform: scaleX(1.2); }
+        }
+
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { 
+                transform: translateY(-10px) translateX(20px);
+                opacity: 0;
+            }
+        }
+
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
@@ -559,14 +734,27 @@
     <!-- Hero Section -->
     <section id="home" class="hero-mobile">
         <div class="cyber-elements">
-            <div class="floating-icon">🔒</div>
-            <div class="floating-icon">🛡️</div>
-            <div class="floating-icon">⚡</div>
-            <div class="floating-icon">🔐</div>
-            <div class="floating-icon">🎯</div>
+            <div class="floating-icon cyber-shield"></div>
+            <div class="floating-icon cyber-lock"></div>
+            <div class="floating-icon cyber-shield-small"></div>
+            <div class="floating-icon cyber-target"></div>
+            <div class="floating-icon cyber-shield"></div>
             <div class="data-stream"></div>
             <div class="data-stream"></div>
             <div class="data-stream"></div>
+            <div class="cyber-line horizontal"></div>
+            <div class="cyber-line vertical"></div>
+            <div class="cyber-line diagonal"></div>
+        </div>
+        <div class="mobile-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
         </div>
         <div class="hero-content">
             <h1 class="hero-title">RCA Security Group</h1>
