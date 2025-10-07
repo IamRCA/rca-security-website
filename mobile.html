@@ -1523,16 +1523,19 @@ Will run 8 OpenMP threads
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
                 
-                // Add new drops randomly - much more aggressive and spread out
-                for (let i = 0; i < this.columnPositions.length; i++) {
-                    const x = this.columnPositions[i];
-                    if (x < this.canvas.width && Math.random() > 0.85) { // 15% chance per frame
+                // Add multiple new drops randomly - truly continuous
+                // Add 3-5 new drops every frame across random columns
+                const numNewDrops = Math.floor(Math.random() * 3) + 3; // 3-5 new drops per frame
+                for (let i = 0; i < numNewDrops; i++) {
+                    const randomColumn = Math.floor(Math.random() * this.columnPositions.length);
+                    const x = this.columnPositions[randomColumn];
+                    if (x < this.canvas.width) {
                         // Create new drop with random timing
                         this.drops.push({
                             x: x,
-                            y: -Math.random() * 400, // Start further above
-                            speed: (this.isLowEnd ? 1.0 : (this.isMobile ? 1.5 : 2.0)) + Math.random() * 1.5, // Variable speed
-                            startTime: Date.now() + Math.random() * 5000 // Random delay up to 5 seconds
+                            y: -Math.random() * 800, // Start even further above
+                            speed: (this.isLowEnd ? 1.0 : (this.isMobile ? 1.5 : 2.0)) + Math.random() * 2.0, // More variable speed
+                            startTime: Date.now() // Start immediately
                         });
                     }
                 }
