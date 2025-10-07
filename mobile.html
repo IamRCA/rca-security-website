@@ -359,14 +359,19 @@
 
         .hero-title {
             font-family: 'Orbitron', monospace;
-            font-size: 2rem;
+            font-size: 2.2rem;
             font-weight: 900;
             color: white;
             margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, var(--primary-color));
+            background: linear-gradient(135deg, #00aaff, #fff, #0066ff, #00aaff);
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.6));
+            text-transform: uppercase;
+            letter-spacing: 3px;
         }
 
         .hero-subtitle {
@@ -694,6 +699,145 @@
             }
         }
 
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 170, 255, 0.6); }
+        }
+
+        /* Statistics Section */
+        .stats-mobile {
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 170, 255, 0.02));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Floating CTA Button */
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: floatBounce 2s ease-in-out infinite;
+        }
+
+        .floating-cta-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Section Dividers */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            margin: 2rem 0;
+            opacity: 0.3;
+            animation: dividerPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes dividerPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Testimonials Carousel */
+        .testimonials-mobile {
+            padding: 3rem 1rem;
+            background: var(--bg-color);
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
         /* Smooth scrolling */
         html {
             scroll-behavior: smooth;
@@ -817,6 +961,64 @@
             </p>
         </div>
     </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Statistics Section -->
+    <section class="stats-mobile">
+        <h2 class="section-title">Proven Track Record</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="500">0</div>
+                <div class="stat-label">Security Assessments</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="99">0</div>
+                <div class="stat-label">Client Satisfaction %</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">Hour Response Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Threats Neutralized</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials-mobile">
+        <h2 class="section-title">What Our Clients Say</h2>
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">
+                "RCA Security Group transformed our cybersecurity posture. Their expertise in CMMC compliance helped us secure major government contracts."
+            </p>
+            <div class="testimonial-author">James Miller</div>
+            <div class="testimonial-role">CTO, Defense Contractor</div>
+        </div>
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">
+                "Professional, thorough, and proactive. They don't just find problems – they provide actionable solutions that actually work."
+            </p>
+            <div class="testimonial-author">Sarah Chen</div>
+            <div class="testimonial-role">CISO, FinTech Company</div>
+        </div>
+        <div class="testimonial-card">
+            <div class="quote-icon">"</div>
+            <p class="testimonial-text">
+                "The team's response during our security incident was outstanding. They contained the threat within hours and prevented any data loss."
+            </p>
+            <div class="testimonial-author">Robert Davidson</div>
+            <div class="testimonial-role">CEO, Healthcare Provider</div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
 
     <!-- Pricing Section -->
     <section id="pricing" class="pricing-mobile">
@@ -984,6 +1186,103 @@
                         block: 'start'
                     });
                 }
+            });
+        });
+    </script>
+
+    <!-- Floating CTA Button -->
+    <div class="floating-cta">
+        <a href="#contact" class="floating-cta-btn">
+            <span>🚀</span>
+            <span>Get Started</span>
+        </a>
+    </div>
+
+    <script>
+        // Animated Counter for Statistics
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = target + (element.parentElement.querySelector('.stat-label').textContent.includes('%') ? '%' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for fade-in animations and counter
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate counters
+                    if (entry.target.classList.contains('stat-card')) {
+                        const numberEl = entry.target.querySelector('.stat-number');
+                        if (numberEl && numberEl.textContent === '0') {
+                            animateCounter(numberEl);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in, .stat-card, .testimonial-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Hide floating CTA when contact form is visible
+        const contactSection = document.querySelector('#contact');
+        const floatingCTA = document.querySelector('.floating-cta');
+        
+        const ctaObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    floatingCTA.style.opacity = '0';
+                    floatingCTA.style.pointerEvents = 'none';
+                } else {
+                    floatingCTA.style.opacity = '1';
+                    floatingCTA.style.pointerEvents = 'auto';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        if (contactSection) {
+            ctaObserver.observe(contactSection);
+        }
+
+        // Add parallax effect to hero section
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-mobile');
+            const cyberElements = document.querySelector('.cyber-elements');
+            
+            if (hero && scrolled < window.innerHeight) {
+                cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+
+        // Add micro-interaction to service cards
+        document.querySelectorAll('.service-card-mobile').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
             });
         });
     </script>
