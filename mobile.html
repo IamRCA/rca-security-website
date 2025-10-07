@@ -1532,16 +1532,29 @@ Will run 8 OpenMP threads
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Total columns for good coverage
-                let numColumns = 15;
-                if (isMobile) numColumns = 12;
-                if (isLowEnd) numColumns = 10;
+                // Fewer columns to prevent too many drops
+                let numColumns = 8;
+                if (isMobile) numColumns = 6;
+                if (isLowEnd) numColumns = 4;
+                
+                // Create array of random positions for random starting order
+                const positions = [];
+                for (let i = 0; i < numColumns; i++) {
+                    positions.push(i);
+                }
+                
+                // Shuffle positions for random starting order
+                for (let i = positions.length - 1; i > 0; i--) {
+                    const j = Math.floor(Math.random() * (i + 1));
+                    [positions[i], positions[j]] = [positions[j], positions[i]];
+                }
                 
                 const columnWidth = 100 / numColumns;
                 
-                // Create columns with much more staggered timing to prevent lag
+                // Create columns in random order
                 for (let i = 0; i < numColumns; i++) {
-                    // Much longer delay between each column creation to spread them out
+                    const positionIndex = positions[i];
+                    
                     setTimeout(() => {
                         const column = document.createElement('div');
                         column.className = 'matrix-column';
@@ -1565,7 +1578,7 @@ Will run 8 OpenMP threads
                         }
                         
                         // Position column with better distribution
-                        column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
+                        column.style.left = (positionIndex * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
                         
                         // Faster animation durations for good speed
                         let duration = 8 + Math.random() * 12; // 8-20 seconds
@@ -1574,11 +1587,11 @@ Will run 8 OpenMP threads
                         
                         column.style.animationDuration = duration + 's';
                         
-                        // Staggered delays to prevent too many drops at once
-                        column.style.animationDelay = (i * 0.5) + Math.random() * 1 + 's'; // 0-1, 0.5-1.5, 1-2, etc.
+                        // Random delays for each column
+                        column.style.animationDelay = Math.random() * 2 + 's'; // 0-2 seconds
                         
                         container.appendChild(column);
-                    }, i * 100); // 100ms delay between each column creation (was 500ms)
+                    }, i * 100); // 100ms delay between each column creation
                 }
             });
         }
