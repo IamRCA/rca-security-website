@@ -961,8 +961,17 @@
             bottom: 0;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.9;
+            opacity: 0.7;
             z-index: 10;
+        }
+
+        /* Performance mode for slower devices */
+        .matrix-background.performance-mode {
+            opacity: 0.4;
+        }
+
+        .matrix-background.performance-mode .matrix-column {
+            animation-duration: 12s !important;
         }
 
         .matrix-column {
@@ -976,6 +985,8 @@
             white-space: pre;
             animation: matrixRain linear infinite;
             opacity: 0;
+            will-change: transform, opacity;
+            transform: translateZ(0);
         }
 
         .matrix-column span {
@@ -1485,25 +1496,43 @@ Will run 8 OpenMP threads
             alert('Thank you! Your email client should open with a pre-filled message.');
         });
 
-        // Matrix Digital Rain Effect
+        // Optimized Matrix Digital Rain Effect
         function initMatrixEffects() {
+            // Performance detection
+            const isMobile = window.innerWidth <= 768;
+            const isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
             const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
-            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            
+            // Apply performance mode if needed
+            if (isLowEnd) {
+                matrixContainers.forEach(containerId => {
+                    const container = document.getElementById(containerId);
+                    if (container) container.classList.add('performance-mode');
+                });
+            }
+            
+            // Simplified character set for better performance
+            const matrixChars = (isMobile || isLowEnd) ? '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Create 15 columns for each container
-                const numColumns = 15;
+                // Reduce columns based on device capability
+                let numColumns = 12;
+                if (isMobile) numColumns = 8;
+                if (isLowEnd) numColumns = 6;
+                
                 const columnWidth = 100 / numColumns;
                 
                 for (let i = 0; i < numColumns; i++) {
                     const column = document.createElement('div');
                     column.className = 'matrix-column';
                     
-                    // Random number of characters in column (15-25)
-                    const numChars = 15 + Math.floor(Math.random() * 10);
+                    // Fewer characters on mobile/low-end devices
+                    let numChars = 12 + Math.floor(Math.random() * 8);
+                    if (isMobile) numChars = 8 + Math.floor(Math.random() * 5);
+                    if (isLowEnd) numChars = 6 + Math.floor(Math.random() * 4);
                     
                     // Build column of characters
                     for (let j = 0; j < numChars; j++) {
@@ -1511,8 +1540,8 @@ Will run 8 OpenMP threads
                         const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                         span.textContent = char;
                         
-                        // Fade effect - characters at bottom are more transparent
-                        const opacity = 1 - (j / numChars) * 0.7;
+                        // Simplified fade effect
+                        const opacity = (isMobile || isLowEnd) ? (1 - (j / numChars) * 0.5) : (1 - (j / numChars) * 0.7);
                         span.style.opacity = opacity;
                         
                         column.appendChild(span);
@@ -1521,12 +1550,15 @@ Will run 8 OpenMP threads
                     // Position column
                     column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.5) + '%';
                     
-                    // Random animation speed (8-15 seconds)
-                    const duration = 8 + Math.random() * 7;
+                    // Faster animation on mobile/low-end
+                    let duration = 8 + Math.random() * 7;
+                    if (isMobile) duration = 6 + Math.random() * 4;
+                    if (isLowEnd) duration = 10 + Math.random() * 5;
+                    
                     column.style.animationDuration = duration + 's';
                     
                     // Random delay
-                    column.style.animationDelay = Math.random() * 5 + 's';
+                    column.style.animationDelay = Math.random() * 3 + 's';
                     
                     container.appendChild(column);
                 }
