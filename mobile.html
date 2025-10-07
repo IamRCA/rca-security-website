@@ -1497,9 +1497,16 @@ Will run 8 OpenMP threads
                 this.resize();
                 window.addEventListener('resize', () => this.resize());
                 
-                // Create drops array
-                const numColumns = this.isLowEnd ? 20 : (this.isMobile ? 30 : 40);
+                // Create drops array with better spacing
+                const numColumns = this.isLowEnd ? 15 : (this.isMobile ? 20 : 25);
                 this.drops = Array(numColumns).fill(0);
+                
+                // Column positions for better spacing
+                this.columnPositions = [];
+                const columnWidth = this.fontSize * 2.5; // Wider spacing between columns
+                for (let i = 0; i < numColumns; i++) {
+                    this.columnPositions.push(i * columnWidth + Math.random() * 20);
+                }
                 
                 // Set font
                 this.ctx.font = `${this.fontSize}px 'Courier New', monospace`;
@@ -1518,34 +1525,39 @@ Will run 8 OpenMP threads
                 this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Draw matrix rain
+                // Draw matrix rain with proper column positioning
                 for (let i = 0; i < this.drops.length; i++) {
-                    const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                    const x = i * (this.canvas.width / this.drops.length);
-                    const y = this.drops[i] * this.fontSize;
+                    const x = this.columnPositions[i];
                     
-                    // Bright character at head
-                    this.ctx.fillStyle = '#00AAFF';
-                    this.ctx.fillText(char, x, y);
-                    
-                    // Trail effect - dimmer characters above
-                    for (let j = 1; j < 10; j++) {
-                        const trailY = y - (j * this.fontSize);
-                        if (trailY > 0) {
-                            const opacity = (10 - j) / 10;
-                            this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.5})`;
-                            const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                            this.ctx.fillText(trailChar, x, trailY);
+                    // Only draw if column is within screen bounds
+                    if (x < this.canvas.width) {
+                        const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                        const y = this.drops[i] * this.fontSize;
+                        
+                        // Bright character at head
+                        this.ctx.fillStyle = '#00AAFF';
+                        this.ctx.fillText(char, x, y);
+                        
+                        // Trail effect - dimmer characters above
+                        for (let j = 1; j < 8; j++) {
+                            const trailY = y - (j * this.fontSize);
+                            if (trailY > 0) {
+                                const opacity = (8 - j) / 8;
+                                this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.6})`;
+                                const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                                this.ctx.fillText(trailChar, x, trailY);
+                            }
                         }
+                        
+                        // More frequent rain restarts for mobile
+                        const restartChance = this.isMobile ? 0.985 : 0.975;
+                        if (y > this.canvas.height && Math.random() > restartChance) {
+                            this.drops[i] = 0;
+                        }
+                        
+                        // Faster movement for more frequent rain
+                        this.drops[i] += this.isLowEnd ? 0.8 : (this.isMobile ? 1.2 : 1.5);
                     }
-                    
-                    // Reset drop to top randomly
-                    if (y > this.canvas.height && Math.random() > 0.975) {
-                        this.drops[i] = 0;
-                    }
-                    
-                    // Move drop down
-                    this.drops[i] += this.isLowEnd ? 0.5 : 1;
                 }
             }
             
