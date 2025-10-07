@@ -889,6 +889,84 @@
             }
         }
 
+        /* Desktop Version Button */
+        .desktop-version-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        .desktop-btn {
+            background: rgba(0, 102, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .desktop-btn:hover {
+            background: rgba(0, 102, 255, 0.2);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        /* Page-wide Matrix Effects */
+        .matrix-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.1;
+        }
+
+        .matrix-particle {
+            position: absolute;
+            font-family: 'Courier New', monospace;
+            font-size: 10px;
+            color: var(--primary-color);
+            opacity: 0.3;
+            animation: matrixFloat 8s linear infinite;
+        }
+
+        .matrix-particle:nth-child(odd) {
+            animation-duration: 12s;
+            animation-delay: -2s;
+        }
+
+        .matrix-particle:nth-child(3n) {
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        @keyframes matrixFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { 
+                opacity: 0.3;
+            }
+            90% { 
+                opacity: 0.3;
+            }
+            100% { 
+                transform: translateY(-10px) translateX(30px);
+                opacity: 0;
+            }
+        }
+
         /* Section Dividers */
         .section-divider {
             height: 2px;
@@ -1016,12 +1094,13 @@
             <a href="#services" onclick="closeMenu()">Services</a>
             <a href="#pricing" onclick="closeMenu()">Pricing</a>
             <a href="#contact" onclick="closeMenu()">Contact</a>
-            <a href="index.html?skip=true" onclick="closeMenu()">🖥️ Desktop Version</a>
         </div>
     </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero-mobile">
+        <!-- Matrix Background -->
+        <div class="matrix-background" id="hero-matrix"></div>
         <div class="cyber-elements">
             <div class="floating-icon cyber-shield"></div>
             <div class="floating-icon cyber-lock"></div>
@@ -1064,6 +1143,8 @@
 
     <!-- Services Section -->
     <section id="services" class="services-mobile">
+        <!-- Matrix Background -->
+        <div class="matrix-background" id="services-matrix"></div>
         <h2 class="section-title">Our Services</h2>
         
         <div class="service-card-mobile fade-in">
@@ -1220,6 +1301,8 @@
 
     <!-- Contact Section -->
     <section id="contact" class="contact-mobile">
+        <!-- Matrix Background -->
+        <div class="matrix-background" id="contact-matrix"></div>
         <h2 class="section-title">Get Started Today</h2>
         
         <div class="contact-form-mobile fade-in">
@@ -1316,9 +1399,32 @@
             alert('Thank you! Your email client should open with a pre-filled message.');
         });
 
+        // Matrix Effects
+        function initMatrixEffects() {
+            const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
+            const binaryChars = ['0', '1'];
+            
+            matrixContainers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                
+                // Generate 15-20 particles per container
+                for (let i = 0; i < 18; i++) {
+                    const particle = document.createElement('div');
+                    particle.className = 'matrix-particle';
+                    particle.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
+                    particle.style.left = Math.random() * 100 + '%';
+                    particle.style.animationDelay = Math.random() * 8 + 's';
+                    particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                    container.appendChild(particle);
+                }
+            });
+        }
+
         // Initialize animations
         window.addEventListener('scroll', handleFadeIn);
         window.addEventListener('load', handleFadeIn);
+        window.addEventListener('load', initMatrixEffects);
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -1340,6 +1446,14 @@
         <a href="#contact" class="floating-cta-btn">
             <span>🚀</span>
             <span>Get Started</span>
+        </a>
+    </div>
+
+    <!-- Desktop Version Button -->
+    <div class="desktop-version-btn">
+        <a href="index.html?skip=true" class="desktop-btn">
+            <span>🖥️</span>
+            <span>Desktop</span>
         </a>
     </div>
 
