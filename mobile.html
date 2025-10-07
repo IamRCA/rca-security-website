@@ -666,7 +666,7 @@
             const subject = `Contact from ${name}${company ? ` at ${company}` : ''}`;
             const body = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`;
             
-            const mailtoLink = `mailto:contact@rcasecurity.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            const mailtoLink = `mailto:contact@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
             
             // Open email client
             window.location.href = mailtoLink;
@@ -693,5 +693,6 @@
             });
         });
     </script>
+    <script src="security-config.js"></script>
 </body>
 </html>

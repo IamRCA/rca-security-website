@@ -1,0 +1,44 @@
+# Security Headers for RCA Security Group Website
+
+# Prevent clickjacking
+Header always append X-Frame-Options SAMEORIGIN
+
+# Prevent MIME type sniffing
+Header always set X-Content-Type-Options nosniff
+
+# Enable XSS protection
+Header always set X-XSS-Protection "1; mode=block"
+
+# Strict Transport Security (HTTPS only)
+Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+# Content Security Policy
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://fonts.googleapis.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self';"
+
+# Referrer Policy
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+
+# Permissions Policy
+Header always set Permissions-Policy "geolocation=(), microphone=(), camera=()"
+
+# Remove server information
+Header unset Server
+Header unset X-Powered-By
+
+# Cache control for sensitive pages
+<FilesMatch "\.(html|css|js)$">
+    Header set Cache-Control "public, max-age=3600"
+</FilesMatch>
+
+# Prevent access to sensitive files
+<FilesMatch "\.(env|log|conf|ini)$">
+    Order allow,deny
+    Deny from all
+</FilesMatch>
+
+# Prevent directory browsing
+Options -Indexes
+
+# Custom error pages (optional)
+# ErrorDocument 404 /404.html
+# ErrorDocument 403 /403.html

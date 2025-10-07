@@ -316,9 +316,9 @@ function initContactForm() {
         
         // Simulate form submission
         const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.innerHTML;
+        const originalText = submitBtn.textContent;
         
-        submitBtn.innerHTML = '<span>Sending...</span><i class="fas fa-spinner fa-spin"></i>';
+        submitBtn.textContent = 'Sending...';
         submitBtn.disabled = true;
         
         setTimeout(() => {
@@ -329,7 +329,7 @@ function initContactForm() {
             showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
             
             // Reset button
-            submitBtn.innerHTML = originalText;
+            submitBtn.textContent = originalText;
             submitBtn.disabled = false;
         }, 2000);
     });
@@ -374,12 +374,19 @@ function downloadResource(type) {
 function showNotification(message, type = 'info') {
     const notification = document.createElement('div');
     notification.className = `notification notification-${type}`;
-    notification.innerHTML = `
-        <div class="notification-content">
-            <i class="fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}"></i>
-            <span>${message}</span>
-        </div>
-    `;
+    // Create notification content safely
+    const content = document.createElement('div');
+    content.className = 'notification-content';
+    
+    const icon = document.createElement('i');
+    icon.className = `fas fa-${type === 'success' ? 'check-circle' : 'info-circle'}`;
+    
+    const text = document.createElement('span');
+    text.textContent = message; // Using textContent prevents XSS
+    
+    content.appendChild(icon);
+    content.appendChild(text);
+    notification.appendChild(content);
     
     // Add styles
     notification.style.cssText = `
@@ -632,16 +639,16 @@ function startEpicAnimation() {
     const terminalLines = document.querySelectorAll('.terminal-line');
     terminalLines.forEach((line, index) => {
         setTimeout(() => {
-            // Store original text
-            const originalText = line.innerHTML;
-            line.innerHTML = '';
+            // Store original text safely
+            const originalText = line.textContent; // Use textContent to prevent XSS
+            line.textContent = '';
             line.classList.add('typing');
             
             // Type out the text character by character
             let charIndex = 0;
             const typingInterval = setInterval(() => {
                 if (charIndex < originalText.length) {
-                    line.innerHTML += originalText[charIndex];
+                    line.textContent += originalText[charIndex];
                     charIndex++;
                 } else {
                     clearInterval(typingInterval);
