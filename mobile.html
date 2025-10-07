@@ -1485,9 +1485,8 @@ Will run 8 OpenMP threads
                 this.isMobile = window.innerWidth <= 768;
                 this.isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
                 
-                this.columns = [];
                 this.fontSize = this.isMobile ? 12 : 14;
-                this.drops = [];
+                this.drops = []; // Array of all active drops across all columns
                 
                 this.init();
                 this.animate();
@@ -1497,13 +1496,10 @@ Will run 8 OpenMP threads
                 this.resize();
                 window.addEventListener('resize', () => this.resize());
                 
-                // Create drops array with better spacing
+                // Create column positions
                 const numColumns = this.isLowEnd ? 15 : (this.isMobile ? 20 : 25);
-                this.drops = Array(numColumns).fill(0);
-                
-                // Column positions for better spacing
                 this.columnPositions = [];
-                const columnWidth = this.fontSize * 2.5; // Wider spacing between columns
+                const columnWidth = this.fontSize * 2.5;
                 for (let i = 0; i < numColumns; i++) {
                     this.columnPositions.push(i * columnWidth + Math.random() * 20);
                 }
@@ -1525,46 +1521,47 @@ Will run 8 OpenMP threads
                 this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
                 this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
                 
-                // Draw matrix rain with proper column positioning
-                for (let i = 0; i < this.drops.length; i++) {
+                // Add new drops randomly
+                for (let i = 0; i < this.columnPositions.length; i++) {
                     const x = this.columnPositions[i];
+                    if (x < this.canvas.width && Math.random() > 0.92) {
+                        // Create new drop
+                        this.drops.push({
+                            x: x,
+                            y: -Math.random() * 200,
+                            speed: this.isLowEnd ? 1.5 : (this.isMobile ? 2.5 : 3.0)
+                        });
+                    }
+                }
+                
+                // Update and draw all drops
+                for (let i = this.drops.length - 1; i >= 0; i--) {
+                    const drop = this.drops[i];
+                    drop.y += drop.speed;
                     
-                    // Only draw if column is within screen bounds
-                    if (x < this.canvas.width) {
-                        // Much more frequent random drop starts - continuous rain
-                        if (this.drops[i] === 0 && Math.random() > 0.6) {
-                            this.drops[i] = -Math.random() * 400; // Start from above screen
-                        }
-                        
+                    // Draw drop if visible
+                    if (drop.y > -this.fontSize && drop.y < this.canvas.height + this.fontSize) {
                         const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                        const y = this.drops[i] * this.fontSize;
                         
-                        // Only draw if drop is visible on screen
-                        if (y > -this.fontSize && y < this.canvas.height + this.fontSize) {
-                            // Bright character at head
-                            this.ctx.fillStyle = '#00AAFF';
-                            this.ctx.fillText(char, x, y);
-                            
-                            // Trail effect - dimmer characters above
-                            for (let j = 1; j < 8; j++) {
-                                const trailY = y - (j * this.fontSize);
-                                if (trailY > 0) {
-                                    const opacity = (8 - j) / 8;
-                                    this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.6})`;
-                                    const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                                    this.ctx.fillText(trailChar, x, trailY);
-                                }
+                        // Bright character at head
+                        this.ctx.fillStyle = '#00AAFF';
+                        this.ctx.fillText(char, drop.x, drop.y);
+                        
+                        // Trail effect
+                        for (let j = 1; j < 8; j++) {
+                            const trailY = drop.y - (j * this.fontSize);
+                            if (trailY > 0) {
+                                const opacity = (8 - j) / 8;
+                                this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.6})`;
+                                const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                                this.ctx.fillText(trailChar, drop.x, trailY);
                             }
                         }
-                        
-                        // Very frequent restarts - no waves, just continuous rain
-                        const restartChance = this.isMobile ? 0.75 : 0.80;
-                        if (y > this.canvas.height && Math.random() > restartChance) {
-                            this.drops[i] = -Math.random() * 300; // Restart from above screen
-                        }
-                        
-                        // Fast movement for continuous effect
-                        this.drops[i] += this.isLowEnd ? 1.5 : (this.isMobile ? 2.5 : 3.0);
+                    }
+                    
+                    // Remove drops that are off screen
+                    if (drop.y > this.canvas.height + 100) {
+                        this.drops.splice(i, 1);
                     }
                 }
             }
