@@ -38,8 +38,34 @@
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 1rem;
+            padding: 0.75rem 1rem;
             border-bottom: 1px solid var(--primary-color);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .mobile-nav.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        .mobile-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 102, 255, 0.02) 2px,
+                    rgba(0, 102, 255, 0.02) 4px
+                );
+            animation: matrixFlow 15s linear infinite;
+            pointer-events: none;
+            opacity: 0.5;
         }
 
         .nav-content {
@@ -797,6 +823,11 @@
             50% { transform: translateY(-10px); }
         }
 
+        @keyframes matrixFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 0; }
+        }
+
         /* Section Dividers */
         .section-divider {
             height: 2px;
@@ -1325,9 +1356,10 @@
             ctaObserver.observe(contactSection);
         }
 
-        // Scroll direction detection for floating CTA
+        // Scroll direction detection for floating CTA and navbar
         let lastScrollTop = 0;
         let scrollTimeout;
+        const navbar = document.querySelector('.mobile-nav');
         
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
@@ -1340,13 +1372,22 @@
                 cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
             
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Navbar hide/show logic
+            if (scrollTop > lastScrollTop && scrollTop > 100) {
+                // Scrolling down - hide navbar
+                navbar.classList.add('nav-hidden');
+            } else if (scrollTop < lastScrollTop || scrollTop < 50) {
+                // Scrolling up or near top - show navbar
+                navbar.classList.remove('nav-hidden');
+            }
+            
             // Floating CTA scroll direction logic
             if (floatingCTA && floatingCTA.style.opacity !== '0') {
-                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-                
-                // Clear existing timeout
-                clearTimeout(scrollTimeout);
-                
                 // Determine scroll direction
                 if (scrollTop > lastScrollTop && scrollTop > 100) {
                     // Scrolling down
@@ -1358,8 +1399,6 @@
                     floatingCTA.classList.add('scrolling-up');
                 }
                 
-                lastScrollTop = scrollTop;
-                
                 // Reset to default state after scrolling stops
                 scrollTimeout = setTimeout(() => {
                     if (scrollTop < 100) {
@@ -1367,6 +1406,8 @@
                     }
                 }, 150);
             }
+            
+            lastScrollTop = scrollTop;
         });
 
         // Add micro-interaction to service cards
