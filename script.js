@@ -567,15 +567,27 @@ function initLoadingSequence() {
     // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
     
+    // Allow forcing demo with ?demo=true
+    if (urlParams.get('demo') === 'true') {
+        localStorage.removeItem('rca_demo_seen'); // Clear the flag
+    }
+    
     // Check if user has seen the demo before (localStorage)
     const hasSeenDemo = localStorage.getItem('rca_demo_seen') === 'true';
+    
+    // Debug info
+    console.log('Demo status:', {
+        hasSeenDemo,
+        urlParams: Object.fromEntries(urlParams),
+        willShowIntro: !hasSeenDemo || urlParams.get('demo') === 'true'
+    });
     
     // Check if we should skip demo
     const skipDemo = urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
                     window.location.pathname.includes('/home') ||
-                    hasSeenDemo; // Skip if they've seen it before
+                    (hasSeenDemo && urlParams.get('demo') !== 'true'); // Skip if they've seen it, unless forced
     
     // If skip demo, go straight to website
     if (skipDemo) {
