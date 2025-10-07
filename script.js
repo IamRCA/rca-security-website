@@ -560,11 +560,12 @@ function initLoadingSequence() {
     // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Check if user wants the new split-screen demo
-    if (urlParams.get('demo') === 'split') {
+    // Always use split-screen demo now (old demo disabled)
+    if (!urlParams.get('skip') && urlParams.get('demo') !== 'false' && !urlParams.get('home') && !window.location.pathname.includes('/home')) {
         window.location.href = 'split-screen-demo.html';
         return;
     }
+    
     const skipDemo = urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
@@ -600,27 +601,10 @@ function initLoadingSequence() {
 }
 
 function setupIntroScreen() {
-    const startBtn = document.getElementById('start-animation');
-    const splitBtn = document.getElementById('start-split-demo');
+    const demoBtn = document.getElementById('start-split-demo');
     const skipBtn = document.getElementById('skip-animation');
-    const introScreen = document.getElementById('intro-screen');
-    const loadingContent = document.querySelector('.loading-content');
     
-    startBtn.addEventListener('click', () => {
-        // Mark demo as seen
-        localStorage.setItem('rca_demo_seen', 'true');
-        
-        // Hide intro screen and show animation
-        introScreen.classList.add('fade-out');
-        
-        setTimeout(() => {
-            introScreen.style.display = 'none';
-            loadingContent.style.display = 'flex';
-            startEpicAnimation();
-        }, 1000);
-    });
-    
-    splitBtn.addEventListener('click', () => {
+    demoBtn.addEventListener('click', () => {
         // Mark demo as seen
         localStorage.setItem('rca_demo_seen', 'true');
         
