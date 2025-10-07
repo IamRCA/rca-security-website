@@ -1580,11 +1580,11 @@ Will run 8 OpenMP threads
                         
                         column.style.animationDuration = duration + 's';
                         
-                        // Long delays between drops to prevent overlap
-                        column.style.animationDelay = Math.random() * 30 + 5 + 's'; // 5-35 seconds
+                        // Staggered delays to prevent too many drops at once
+                        column.style.animationDelay = (i * 2) + Math.random() * 3 + 's'; // 0-2, 2-5, 4-7, etc.
                         
                         container.appendChild(column);
-                    }, i * 500); // 500ms delay between each column creation (was 2500ms)
+                    }, i * 100); // 100ms delay between each column creation (was 500ms)
                 }
             });
         }
