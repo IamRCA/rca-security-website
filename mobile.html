@@ -969,10 +969,10 @@
             position: absolute;
             font-family: 'Courier New', monospace;
             font-size: 16px;
-            color: #00ff00;
-            opacity: 1;
+            color: var(--primary-color);
+            opacity: 0.7;
             animation: matrixFloat 8s linear infinite;
-            text-shadow: 0 0 15px rgba(0, 255, 0, 0.8);
+            text-shadow: 0 0 10px rgba(0, 102, 255, 0.8);
             font-weight: bold;
             z-index: 15;
         }
@@ -989,17 +989,17 @@
 
         @keyframes matrixFloat {
             0% { 
-                transform: translateY(100vh) translateX(0px);
+                transform: translateY(-100px);
                 opacity: 0;
             }
             10% { 
-                opacity: 0.3;
+                opacity: 1;
             }
             90% { 
-                opacity: 0.3;
+                opacity: 1;
             }
             100% { 
-                transform: translateY(-10px) translateX(30px);
+                transform: translateY(100vh);
                 opacity: 0;
             }
         }
@@ -1112,12 +1112,7 @@
     <!-- Hero Section -->
     <section id="home" class="hero-mobile">
         <!-- Matrix Background -->
-        <div class="matrix-background" id="hero-matrix">
-            <!-- Test particles -->
-            <div class="matrix-particle" style="left: 10%; top: 10%; animation: none; opacity: 1;">TEST</div>
-            <div class="matrix-particle" style="left: 50%; top: 20%; animation: none; opacity: 1;">MATRIX</div>
-            <div class="matrix-particle" style="left: 80%; top: 30%; animation: none; opacity: 1;">WORKS</div>
-        </div>
+        <div class="matrix-background" id="hero-matrix"></div>
         <div class="cyber-elements">
             <div class="floating-icon cyber-shield"></div>
             <div class="floating-icon cyber-lock"></div>
