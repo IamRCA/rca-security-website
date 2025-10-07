@@ -762,6 +762,19 @@
             right: 20px;
             z-index: 1000;
             animation: floatBounce 2s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-cta.scrolling-down {
+            bottom: auto;
+            top: 20px;
+            animation: none;
+        }
+
+        .floating-cta.scrolling-up {
+            bottom: 20px;
+            top: auto;
+            animation: floatBounce 2s ease-in-out infinite;
         }
 
         .floating-cta-btn {
@@ -1312,14 +1325,47 @@
             ctaObserver.observe(contactSection);
         }
 
-        // Add parallax effect to hero section
+        // Scroll direction detection for floating CTA
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-mobile');
             const cyberElements = document.querySelector('.cyber-elements');
+            const floatingCTA = document.querySelector('.floating-cta');
             
+            // Parallax effect for hero
             if (hero && scrolled < window.innerHeight) {
                 cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            // Floating CTA scroll direction logic
+            if (floatingCTA && floatingCTA.style.opacity !== '0') {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+                
+                // Clear existing timeout
+                clearTimeout(scrollTimeout);
+                
+                // Determine scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    floatingCTA.classList.remove('scrolling-up');
+                    floatingCTA.classList.add('scrolling-down');
+                } else if (scrollTop < lastScrollTop) {
+                    // Scrolling up
+                    floatingCTA.classList.remove('scrolling-down');
+                    floatingCTA.classList.add('scrolling-up');
+                }
+                
+                lastScrollTop = scrollTop;
+                
+                // Reset to default state after scrolling stops
+                scrollTimeout = setTimeout(() => {
+                    if (scrollTop < 100) {
+                        floatingCTA.classList.remove('scrolling-down', 'scrolling-up');
+                    }
+                }, 150);
             }
         });
 
