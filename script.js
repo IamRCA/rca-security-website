@@ -548,12 +548,16 @@ function initLoadingSequence() {
     const introScreen = document.getElementById('intro-screen');
     const loadingContent = document.querySelector('.loading-content');
     
+    // Check if mobile device - skip demo on mobile
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    
     // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
     const skipDemo = urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
-                    window.location.pathname.includes('/home');
+                    window.location.pathname.includes('/home') ||
+                    isMobile; // Skip demo on mobile devices
     
     // If skip demo, go straight to website
     if (skipDemo) {
@@ -573,6 +577,12 @@ function initLoadingSequence() {
     // Show intro screen first
     introScreen.style.display = 'flex';
     loadingContent.style.display = 'none';
+    
+    // Show mobile note if on mobile
+    const mobileNote = document.querySelector('.intro-mobile-note');
+    if (isMobile) {
+        mobileNote.style.display = 'block';
+    }
     
     // Set up intro screen event listeners
     setupIntroScreen();
