@@ -38,9 +38,9 @@
             background: rgba(10, 10, 10, 0.95);
             backdrop-filter: blur(10px);
             z-index: 1000;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 1rem;
             border-bottom: 1px solid var(--primary-color);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             overflow: hidden;
         }
 
@@ -1361,6 +1361,11 @@
         let scrollTimeout;
         const navbar = document.querySelector('.mobile-nav');
         
+        // Initialize navbar as visible
+        if (navbar) {
+            navbar.classList.remove('nav-hidden');
+        }
+        
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-mobile');
@@ -1377,13 +1382,17 @@
             // Clear existing timeout
             clearTimeout(scrollTimeout);
             
-            // Navbar hide/show logic
-            if (scrollTop > lastScrollTop && scrollTop > 100) {
-                // Scrolling down - hide navbar
-                navbar.classList.add('nav-hidden');
-            } else if (scrollTop < lastScrollTop || scrollTop < 50) {
-                // Scrolling up or near top - show navbar
-                navbar.classList.remove('nav-hidden');
+            // Navbar hide/show logic with threshold
+            const scrollThreshold = 5; // Minimum scroll distance to trigger
+            
+            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down - hide navbar
+                    navbar.classList.add('nav-hidden');
+                } else if (scrollTop < lastScrollTop || scrollTop < 50) {
+                    // Scrolling up or near top - show navbar
+                    navbar.classList.remove('nav-hidden');
+                }
             }
             
             // Floating CTA scroll direction logic
