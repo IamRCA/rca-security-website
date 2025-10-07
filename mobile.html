@@ -1573,18 +1573,18 @@ Will run 8 OpenMP threads
                         // Position column with better distribution
                         column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
                         
-                        // Much longer animation durations to reduce frequency
-                        let duration = 12 + Math.random() * 18; // 12-30 seconds
-                        if (isMobile) duration = 10 + Math.random() * 15; // 10-25 seconds
-                        if (isLowEnd) duration = 15 + Math.random() * 12; // 15-27 seconds
+                        // Even longer animation durations to reduce frequency
+                        let duration = 20 + Math.random() * 25; // 20-45 seconds
+                        if (isMobile) duration = 18 + Math.random() * 22; // 18-40 seconds
+                        if (isLowEnd) duration = 25 + Math.random() * 20; // 25-45 seconds
                         
                         column.style.animationDuration = duration + 's';
                         
                         // Much longer delays between drops
-                        column.style.animationDelay = Math.random() * 15 + 's'; // 0-15 seconds
+                        column.style.animationDelay = Math.random() * 25 + 's'; // 0-25 seconds
                         
                         container.appendChild(column);
-                    }, i * 800); // 800ms delay between each column creation (was 200ms)
+                    }, i * 1500); // 1500ms delay between each column creation (was 800ms)
                 }
             });
         }
