@@ -1531,6 +1531,10 @@ Will run 8 OpenMP threads
                     
                     // Only draw if column is within screen bounds
                     if (x < this.canvas.width) {
+                        // Random chance to start new drops even if current one is running
+                        if (this.drops[i] === 0 && Math.random() > 0.7) {
+                            this.drops[i] = -Math.random() * 200; // Start from above screen
+                        }
                         const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
                         const y = this.drops[i] * this.fontSize;
                         
@@ -1549,14 +1553,14 @@ Will run 8 OpenMP threads
                             }
                         }
                         
-                        // More frequent rain restarts for mobile
-                        const restartChance = this.isMobile ? 0.985 : 0.975;
+                        // Much more frequent rain restarts
+                        const restartChance = this.isMobile ? 0.92 : 0.95;
                         if (y > this.canvas.height && Math.random() > restartChance) {
                             this.drops[i] = 0;
                         }
                         
-                        // Faster movement for more frequent rain
-                        this.drops[i] += this.isLowEnd ? 0.8 : (this.isMobile ? 1.2 : 1.5);
+                        // Much faster movement for more rain
+                        this.drops[i] += this.isLowEnd ? 1.2 : (this.isMobile ? 2.0 : 2.5);
                     }
                 }
             }
