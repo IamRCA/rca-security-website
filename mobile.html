@@ -1567,10 +1567,10 @@ Will run 8 OpenMP threads
                         // Position column with better distribution
                         column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
                         
-                        // Much longer animation durations to reduce frequency
-                        let duration = 30 + Math.random() * 40; // 30-70 seconds
-                        if (isMobile) duration = 25 + Math.random() * 35; // 25-60 seconds
-                        if (isLowEnd) duration = 35 + Math.random() * 30; // 35-65 seconds
+                        // Faster animation durations for good speed
+                        let duration = 8 + Math.random() * 12; // 8-20 seconds
+                        if (isMobile) duration = 6 + Math.random() * 10; // 6-16 seconds
+                        if (isLowEnd) duration = 10 + Math.random() * 8; // 10-18 seconds
                         
                         column.style.animationDuration = duration + 's';
                         
