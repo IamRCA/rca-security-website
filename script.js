@@ -614,12 +614,12 @@ function setupIntroScreen() {
 }
 
 function startEpicAnimation() {
-    // Add typing effect to terminal lines
+    // Add typing effect to terminal lines - ONE AT A TIME
     const terminalLines = document.querySelectorAll('.terminal-line');
     terminalLines.forEach((line, index) => {
         setTimeout(() => {
             // Store original text
-            const originalText = line.innerHTML; // Use innerHTML to preserve spans
+            const originalText = line.innerHTML;
             line.innerHTML = '';
             line.classList.add('typing');
             
@@ -634,10 +634,10 @@ function startEpicAnimation() {
                     // Remove typing class after completion
                     setTimeout(() => {
                         line.classList.remove('typing');
-                    }, 500);
+                    }, 1000); // Wait 1 second before next line
                 }
-            }, 30); // Type each character every 30ms for faster typing
-        }, (5 + index) * 1000); // Start typing 2 seconds earlier
+            }, 40); // Type each character every 40ms
+        }, 5000 + (index * 2000)); // 5 seconds + 2 seconds per line (sequential)
     });
     
     // Update attack percentage counter
@@ -659,7 +659,7 @@ function startEpicAnimation() {
     // Auto-redirect to victory page after animation completes
     setTimeout(() => {
         window.location.href = 'victory.html';
-    }, 40000); // 40 seconds total (30s animation + 10s redirect screen)
+    }, 44000); // 44 seconds total (34s animation + 10s redirect screen)
 }
 
 // Initialize everything when DOM is loaded
