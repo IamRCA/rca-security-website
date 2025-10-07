@@ -549,63 +549,36 @@ function initEnhancedAnimations() {
     });
 }
 
-// Epic Loading sequence animation - 20 second cinematic experience with smart routing
 function initLoadingSequence() {
     const loadingScreen = document.getElementById('loading-screen');
     const introScreen = document.getElementById('intro-screen');
     const loadingContent = document.querySelector('.loading-content');
     
-    // Check if mobile device - redirect to mobile version
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-    
-    // If mobile, redirect to mobile version
     if (isMobile && !window.location.pathname.includes('mobile.html')) {
         window.location.href = 'mobile.html';
         return;
     }
-    
-    // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
-    
-    // Allow forcing demo with ?demo=true
     if (urlParams.get('demo') === 'true') {
-        localStorage.removeItem('rca_demo_seen'); // Clear the flag
+        localStorage.removeItem('rca_demo_seen');
     }
-    
-    // Check if user has seen the demo before (localStorage)
     const hasSeenDemo = localStorage.getItem('rca_demo_seen') === 'true';
-    
-    // Debug info
-    console.log('Demo status:', {
-        hasSeenDemo,
-        urlParams: Object.fromEntries(urlParams),
-        willShowIntro: !hasSeenDemo || urlParams.get('demo') === 'true'
-    });
-    
-    // Check if we should skip demo
     const skipDemo = urlParams.get('skip') === 'true' || 
                     urlParams.get('demo') === 'false' || 
                     urlParams.get('home') === 'true' ||
                     window.location.pathname.includes('/home') ||
-                    (hasSeenDemo && urlParams.get('demo') !== 'true'); // Skip if they've seen it, unless forced
-    
-    // If skip demo, go straight to website
+                    (hasSeenDemo && urlParams.get('demo') !== 'true');
     if (skipDemo) {
         loadingScreen.style.display = 'none';
         return;
     }
-    
-    // Show intro screen first
     introScreen.style.display = 'flex';
     loadingContent.style.display = 'none';
-    
-    // Show mobile note if on mobile
     const mobileNote = document.querySelector('.intro-mobile-note');
     if (isMobile) {
         mobileNote.style.display = 'block';
     }
-    
-    // Set up intro screen event listeners
     setupIntroScreen();
 }
 
