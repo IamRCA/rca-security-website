@@ -952,7 +952,7 @@
             transform: scale(1.05);
         }
 
-        /* Page-wide Matrix Effects */
+        /* Matrix Digital Rain Effect */
         .matrix-background {
             position: absolute;
             top: 0;
@@ -961,45 +961,47 @@
             bottom: 0;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.8;
+            opacity: 0.6;
             z-index: 10;
         }
 
-        .matrix-particle {
+        .matrix-column {
             position: absolute;
+            top: -100%;
             font-family: 'Courier New', monospace;
-            font-size: 16px;
+            font-size: 14px;
             color: var(--primary-color);
-            opacity: 0.7;
-            animation: matrixFloat 8s linear infinite;
-            text-shadow: 0 0 10px rgba(0, 102, 255, 0.8);
+            text-shadow: 0 0 8px rgba(0, 102, 255, 0.8);
+            line-height: 1.2;
+            white-space: pre;
+            animation: matrixRain linear infinite;
+            opacity: 0;
+        }
+
+        .matrix-column span {
+            display: block;
+            opacity: 1;
+        }
+
+        .matrix-column span:first-child {
+            color: rgba(0, 170, 255, 1);
+            text-shadow: 0 0 15px rgba(0, 170, 255, 1);
             font-weight: bold;
-            z-index: 15;
         }
 
-        .matrix-particle:nth-child(odd) {
-            animation-duration: 12s;
-            animation-delay: -2s;
-        }
-
-        .matrix-particle:nth-child(3n) {
-            animation-duration: 10s;
-            animation-delay: -4s;
-        }
-
-        @keyframes matrixFloat {
-            0% { 
-                transform: translateY(-100px);
+        @keyframes matrixRain {
+            0% {
+                top: -100%;
                 opacity: 0;
             }
-            10% { 
+            5% {
                 opacity: 1;
             }
-            90% { 
+            95% {
                 opacity: 1;
             }
-            100% { 
-                transform: translateY(100vh);
+            100% {
+                top: 100%;
                 opacity: 0;
             }
         }
@@ -1415,35 +1417,51 @@
             alert('Thank you! Your email client should open with a pre-filled message.');
         });
 
-        // Matrix Effects
+        // Matrix Digital Rain Effect
         function initMatrixEffects() {
             const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
-            const binaryChars = ['0', '1', '●', '■', '▲'];
-            
-            console.log('Initializing Matrix effects...');
+            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
-                console.log(`Container ${containerId}:`, container);
+                if (!container) return;
                 
-                if (!container) {
-                    console.log(`Container ${containerId} not found!`);
-                    return;
+                // Create 15 columns for each container
+                const numColumns = 15;
+                const columnWidth = 100 / numColumns;
+                
+                for (let i = 0; i < numColumns; i++) {
+                    const column = document.createElement('div');
+                    column.className = 'matrix-column';
+                    
+                    // Random number of characters in column (15-25)
+                    const numChars = 15 + Math.floor(Math.random() * 10);
+                    
+                    // Build column of characters
+                    for (let j = 0; j < numChars; j++) {
+                        const span = document.createElement('span');
+                        const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                        span.textContent = char;
+                        
+                        // Fade effect - characters at bottom are more transparent
+                        const opacity = 1 - (j / numChars) * 0.7;
+                        span.style.opacity = opacity;
+                        
+                        column.appendChild(span);
+                    }
+                    
+                    // Position column
+                    column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.5) + '%';
+                    
+                    // Random animation speed (8-15 seconds)
+                    const duration = 8 + Math.random() * 7;
+                    column.style.animationDuration = duration + 's';
+                    
+                    // Random delay
+                    column.style.animationDelay = Math.random() * 5 + 's';
+                    
+                    container.appendChild(column);
                 }
-                
-                // Generate 25 particles per container for more visibility
-                for (let i = 0; i < 25; i++) {
-                    const particle = document.createElement('div');
-                    particle.className = 'matrix-particle';
-                    particle.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
-                    particle.style.left = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 10 + 's';
-                    particle.style.animationDuration = (6 + Math.random() * 6) + 's';
-                    particle.style.fontSize = (10 + Math.random() * 6) + 'px';
-                    container.appendChild(particle);
-                }
-                
-                console.log(`Added 25 particles to ${containerId}`);
             });
         }
 
