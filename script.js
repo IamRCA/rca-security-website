@@ -314,24 +314,20 @@ function initContactForm() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         
-        // Simulate form submission
-        const submitBtn = form.querySelector('button[type="submit"]');
-        const originalText = submitBtn.textContent;
+        // Create mailto link
+        const subject = `Contact from ${data.name}${data.company ? ` at ${data.company}` : ''}`;
+        const body = `Name: ${data.name}\nEmail: ${data.email}${data.company ? `\nCompany: ${data.company}` : ''}\n\nMessage:\n${data.message}`;
         
-        submitBtn.textContent = 'Sending...';
-        submitBtn.disabled = true;
+        const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
         
-        setTimeout(() => {
-            // Reset form
-            form.reset();
-            
-            // Show success message
-            showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
-            
-            // Reset button
-            submitBtn.textContent = originalText;
-            submitBtn.disabled = false;
-        }, 2000);
+        // Open email client
+        window.location.href = mailtoLink;
+        
+        // Reset form
+        form.reset();
+        
+        // Show success message
+        showNotification('Your email client should open with a pre-filled message.', 'success');
     });
 }
 
