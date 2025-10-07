@@ -1511,17 +1511,17 @@ Will run 8 OpenMP threads
                 });
             }
             
-            // Simplified character set for better performance
-            const matrixChars = (isMobile || isLowEnd) ? '01ABCDEFGHIJKLMNOPQRSTUVWXYZ' : '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            // Full character set with foreign characters for authentic Matrix effect
+            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Reduce columns based on device capability
-                let numColumns = 12;
-                if (isMobile) numColumns = 8;
-                if (isLowEnd) numColumns = 6;
+                // More columns for better coverage
+                let numColumns = 15;
+                if (isMobile) numColumns = 12;
+                if (isLowEnd) numColumns = 10;
                 
                 const columnWidth = 100 / numColumns;
                 
@@ -1529,10 +1529,10 @@ Will run 8 OpenMP threads
                     const column = document.createElement('div');
                     column.className = 'matrix-column';
                     
-                    // Fewer characters on mobile/low-end devices
-                    let numChars = 12 + Math.floor(Math.random() * 8);
-                    if (isMobile) numChars = 8 + Math.floor(Math.random() * 5);
-                    if (isLowEnd) numChars = 6 + Math.floor(Math.random() * 4);
+                    // More characters for continuous rain effect
+                    let numChars = 15 + Math.floor(Math.random() * 10);
+                    if (isMobile) numChars = 12 + Math.floor(Math.random() * 8);
+                    if (isLowEnd) numChars = 10 + Math.floor(Math.random() * 6);
                     
                     // Build column of characters
                     for (let j = 0; j < numChars; j++) {
@@ -1540,25 +1540,25 @@ Will run 8 OpenMP threads
                         const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
                         span.textContent = char;
                         
-                        // Simplified fade effect
-                        const opacity = (isMobile || isLowEnd) ? (1 - (j / numChars) * 0.5) : (1 - (j / numChars) * 0.7);
+                        // Better fade effect for trailing
+                        const opacity = (1 - (j / numChars) * 0.8);
                         span.style.opacity = opacity;
                         
                         column.appendChild(span);
                     }
                     
-                    // Position column
-                    column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.5) + '%';
+                    // Position column with better distribution
+                    column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
                     
-                    // Faster animation on mobile/low-end
-                    let duration = 8 + Math.random() * 7;
-                    if (isMobile) duration = 6 + Math.random() * 4;
-                    if (isLowEnd) duration = 10 + Math.random() * 5;
+                    // Varied animation speeds for natural effect
+                    let duration = 6 + Math.random() * 8;
+                    if (isMobile) duration = 5 + Math.random() * 6;
+                    if (isLowEnd) duration = 8 + Math.random() * 6;
                     
                     column.style.animationDuration = duration + 's';
                     
-                    // Random delay
-                    column.style.animationDelay = Math.random() * 3 + 's';
+                    // Staggered delays for continuous effect
+                    column.style.animationDelay = Math.random() * 5 + 's';
                     
                     container.appendChild(column);
                 }
