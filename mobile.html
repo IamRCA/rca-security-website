@@ -825,41 +825,30 @@
             opacity: 0.8;
         }
 
-        /* Floating CTA Button */
-        .floating-cta {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            animation: floatBounce 2s ease-in-out infinite;
-            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        /* Footer Links */
+        .footer-links {
+            margin-top: 1rem;
+            text-align: center;
         }
 
-        .floating-cta.scrolling-down {
-            bottom: auto;
-            top: 20px;
-            animation: none;
-        }
-
-        .floating-cta.scrolling-up {
-            bottom: 20px;
-            top: auto;
-            animation: floatBounce 2s ease-in-out infinite;
-        }
-
-        .floating-cta-btn {
-            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-            color: white;
-            border: none;
-            border-radius: 50px;
-            padding: 1rem 1.5rem;
-            font-size: 1rem;
-            font-weight: 700;
-            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
-            cursor: pointer;
-            display: flex;
+        .desktop-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 25px;
+            display: inline-flex;
             align-items: center;
             gap: 0.5rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .desktop-link:hover {
+            background: rgba(0, 102, 255, 0.2);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
         }
 
         @keyframes floatBounce {
@@ -928,15 +917,15 @@
             bottom: 0;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.1;
+            opacity: 0.3;
         }
 
         .matrix-particle {
             position: absolute;
             font-family: 'Courier New', monospace;
-            font-size: 10px;
+            font-size: 12px;
             color: var(--primary-color);
-            opacity: 0.3;
+            opacity: 0.6;
             animation: matrixFloat 8s linear infinite;
         }
 
@@ -1342,6 +1331,11 @@
             Professional cybersecurity consulting for modern businesses.<br>
             © 2024 RCA Security Group. All rights reserved.
         </p>
+        <div class="footer-links">
+            <a href="index.html?skip=true" class="desktop-link">
+                🖥️ View Desktop Version
+            </a>
+        </div>
     </footer>
 
     <script>
@@ -1402,20 +1396,21 @@
         // Matrix Effects
         function initMatrixEffects() {
             const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
-            const binaryChars = ['0', '1'];
+            const binaryChars = ['0', '1', '●', '■', '▲'];
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Generate 15-20 particles per container
-                for (let i = 0; i < 18; i++) {
+                // Generate 25 particles per container for more visibility
+                for (let i = 0; i < 25; i++) {
                     const particle = document.createElement('div');
                     particle.className = 'matrix-particle';
                     particle.textContent = binaryChars[Math.floor(Math.random() * binaryChars.length)];
                     particle.style.left = Math.random() * 100 + '%';
-                    particle.style.animationDelay = Math.random() * 8 + 's';
-                    particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                    particle.style.animationDelay = Math.random() * 10 + 's';
+                    particle.style.animationDuration = (6 + Math.random() * 6) + 's';
+                    particle.style.fontSize = (10 + Math.random() * 6) + 'px';
                     container.appendChild(particle);
                 }
             });
@@ -1441,21 +1436,6 @@
         });
     </script>
 
-    <!-- Floating CTA Button -->
-    <div class="floating-cta">
-        <a href="#contact" class="floating-cta-btn">
-            <span>🚀</span>
-            <span>Get Started</span>
-        </a>
-    </div>
-
-    <!-- Desktop Version Button -->
-    <div class="desktop-version-btn">
-        <a href="index.html?skip=true" class="desktop-btn">
-            <span>🖥️</span>
-            <span>Desktop</span>
-        </a>
-    </div>
 
     <script>
         // Animated Counter for Statistics
@@ -1504,41 +1484,7 @@
             observer.observe(el);
         });
 
-        // Hide floating CTA when hero buttons are visible or contact form is visible
-        const heroButtons = document.querySelector('.hero-buttons');
-        const contactSection = document.querySelector('#contact');
-        const floatingCTA = document.querySelector('.floating-cta');
-        
-        const ctaObserver = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.target === heroButtons) {
-                    // Hero buttons are visible, hide floating CTA
-                    if (entry.isIntersecting) {
-                        floatingCTA.style.opacity = '0';
-                        floatingCTA.style.pointerEvents = 'none';
-                    } else {
-                        floatingCTA.style.opacity = '1';
-                        floatingCTA.style.pointerEvents = 'auto';
-                    }
-                } else if (entry.target === contactSection) {
-                    // Contact form is visible, hide floating CTA
-                    if (entry.isIntersecting) {
-                        floatingCTA.style.opacity = '0';
-                        floatingCTA.style.pointerEvents = 'none';
-                    } else {
-                        floatingCTA.style.opacity = '1';
-                        floatingCTA.style.pointerEvents = 'auto';
-                    }
-                }
-            });
-        }, { threshold: 0.1 });
-
-        if (heroButtons) {
-            ctaObserver.observe(heroButtons);
-        }
-        if (contactSection) {
-            ctaObserver.observe(contactSection);
-        }
+        // Floating CTA removed
 
         // Scroll direction detection for floating CTA and navbar
         let lastScrollTop = 0;
@@ -1554,7 +1500,6 @@
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-mobile');
             const cyberElements = document.querySelector('.cyber-elements');
-            const floatingCTA = document.querySelector('.floating-cta');
             
             // Parallax effect for hero
             if (hero && scrolled < window.innerHeight) {
@@ -1579,26 +1524,7 @@
                 }
             }
             
-            // Floating CTA scroll direction logic
-            if (floatingCTA && floatingCTA.style.opacity !== '0') {
-                // Determine scroll direction
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Scrolling down
-                    floatingCTA.classList.remove('scrolling-up');
-                    floatingCTA.classList.add('scrolling-down');
-                } else if (scrollTop < lastScrollTop) {
-                    // Scrolling up
-                    floatingCTA.classList.remove('scrolling-down');
-                    floatingCTA.classList.add('scrolling-up');
-                }
-                
-                // Reset to default state after scrolling stops
-                scrollTimeout = setTimeout(() => {
-                    if (scrollTop < 100) {
-                        floatingCTA.classList.remove('scrolling-down', 'scrolling-up');
-                    }
-                }, 150);
-            }
+            // Floating CTA removed
             
             lastScrollTop = scrollTop;
         });
