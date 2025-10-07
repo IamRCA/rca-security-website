@@ -861,6 +861,18 @@
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
+        .floating-cta.scrolling-down {
+            top: 20px;
+            bottom: auto;
+            animation: none;
+        }
+
+        .floating-cta.scrolling-up {
+            bottom: 20px;
+            top: auto;
+            animation: floatBounce 2s ease-in-out infinite;
+        }
+
         .floating-cta-btn {
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
             color: white;
@@ -949,16 +961,17 @@
             bottom: 0;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.3;
+            opacity: 0.8;
         }
 
         .matrix-particle {
             position: absolute;
             font-family: 'Courier New', monospace;
-            font-size: 12px;
+            font-size: 14px;
             color: var(--primary-color);
-            opacity: 0.6;
+            opacity: 0.9;
             animation: matrixFloat 8s linear infinite;
+            text-shadow: 0 0 10px rgba(0, 102, 255, 0.5);
         }
 
         .matrix-particle:nth-child(odd) {
@@ -1404,9 +1417,16 @@
             const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
             const binaryChars = ['0', '1', '●', '■', '▲'];
             
+            console.log('Initializing Matrix effects...');
+            
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
-                if (!container) return;
+                console.log(`Container ${containerId}:`, container);
+                
+                if (!container) {
+                    console.log(`Container ${containerId} not found!`);
+                    return;
+                }
                 
                 // Generate 25 particles per container for more visibility
                 for (let i = 0; i < 25; i++) {
@@ -1419,6 +1439,8 @@
                     particle.style.fontSize = (10 + Math.random() * 6) + 'px';
                     container.appendChild(particle);
                 }
+                
+                console.log(`Added 25 particles to ${containerId}`);
             });
         }
 
@@ -1490,7 +1512,11 @@
             observer.observe(el);
         });
 
-        // Parallax effect for hero
+        // Scroll direction detection for floating CTA
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        const floatingCTA = document.querySelector('.floating-cta');
+        
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-mobile');
@@ -1500,6 +1526,34 @@
             if (hero && scrolled < window.innerHeight) {
                 cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Floating CTA scroll direction logic
+            if (floatingCTA) {
+                // Determine scroll direction
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    floatingCTA.classList.remove('scrolling-up');
+                    floatingCTA.classList.add('scrolling-down');
+                } else if (scrollTop < lastScrollTop) {
+                    // Scrolling up
+                    floatingCTA.classList.remove('scrolling-down');
+                    floatingCTA.classList.add('scrolling-up');
+                }
+                
+                // Reset to default state after scrolling stops
+                scrollTimeout = setTimeout(() => {
+                    if (scrollTop < 100) {
+                        floatingCTA.classList.remove('scrolling-down', 'scrolling-up');
+                    }
+                }, 150);
+            }
+            
+            lastScrollTop = scrollTop;
         });
 
         // Add micro-interaction to service cards
