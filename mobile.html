@@ -952,7 +952,7 @@
             transform: scale(1.05);
         }
 
-        /* Matrix Digital Rain Effect */
+        /* Canvas-based Matrix Digital Rain Effect */
         .matrix-background {
             position: absolute;
             top: 0;
@@ -960,44 +960,14 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            overflow: hidden;
             opacity: 0.7;
             z-index: 10;
         }
 
-        /* Performance mode for slower devices */
-        .matrix-background.performance-mode {
-            opacity: 0.4;
-        }
-
-        .matrix-background.performance-mode .matrix-column {
-            animation-duration: 12s !important;
-        }
-
-        .matrix-column {
-            position: absolute;
-            top: -100%;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            color: var(--primary-color);
-            text-shadow: 0 0 8px rgba(0, 102, 255, 0.8);
-            line-height: 1.2;
-            white-space: pre;
-            animation: matrixRain linear infinite;
-            opacity: 0;
-            will-change: transform, opacity;
-            transform: translateZ(0);
-        }
-
-        .matrix-column span {
+        .matrix-canvas {
+            width: 100%;
+            height: 100%;
             display: block;
-            opacity: 1;
-        }
-
-        .matrix-column span:first-child {
-            color: rgba(0, 170, 255, 1);
-            text-shadow: 0 0 15px rgba(0, 170, 255, 1);
-            font-weight: bold;
         }
 
         /* Faded CLI Windows Background */
@@ -1034,16 +1004,6 @@
             100% { opacity: 0.25; }
         }
 
-        @keyframes matrixRain {
-            0% {
-                top: -50%;
-                opacity: 1;
-            }
-            100% {
-                top: 100%;
-                opacity: 1;
-            }
-        }
 
         /* Section Dividers */
         .section-divider {
@@ -1510,89 +1470,104 @@ Will run 8 OpenMP threads
             });
         });
 
-        // Optimized Matrix Digital Rain Effect
-        function initMatrixEffects() {
-            // Performance detection
-            const isMobile = window.innerWidth <= 768;
-            const isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
-            const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
-            
-            // Apply performance mode if needed
-            if (isLowEnd) {
-                matrixContainers.forEach(containerId => {
-                    const container = document.getElementById(containerId);
-                    if (container) container.classList.add('performance-mode');
-                });
+        // High-Performance Canvas-based Matrix Digital Rain Effect
+        class MatrixRain {
+            constructor(container) {
+                this.container = container;
+                this.canvas = document.createElement('canvas');
+                this.ctx = this.canvas.getContext('2d');
+                this.container.appendChild(this.canvas);
+                
+                // Matrix characters
+                this.matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+                
+                // Performance settings
+                this.isMobile = window.innerWidth <= 768;
+                this.isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
+                
+                this.columns = [];
+                this.fontSize = this.isMobile ? 12 : 14;
+                this.drops = [];
+                
+                this.init();
+                this.animate();
             }
             
-            // Full character set with foreign characters for authentic Matrix effect
-            const matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            init() {
+                this.resize();
+                window.addEventListener('resize', () => this.resize());
+                
+                // Create drops array
+                const numColumns = this.isLowEnd ? 20 : (this.isMobile ? 30 : 40);
+                this.drops = Array(numColumns).fill(0);
+                
+                // Set font
+                this.ctx.font = `${this.fontSize}px 'Courier New', monospace`;
+            }
+            
+            resize() {
+                const rect = this.container.getBoundingClientRect();
+                this.canvas.width = rect.width;
+                this.canvas.height = rect.height;
+                this.canvas.style.width = rect.width + 'px';
+                this.canvas.style.height = rect.height + 'px';
+            }
+            
+            draw() {
+                // Semi-transparent black background for trailing effect
+                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+                
+                // Draw matrix rain
+                for (let i = 0; i < this.drops.length; i++) {
+                    const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                    const x = i * (this.canvas.width / this.drops.length);
+                    const y = this.drops[i] * this.fontSize;
+                    
+                    // Bright character at head
+                    this.ctx.fillStyle = '#00AAFF';
+                    this.ctx.fillText(char, x, y);
+                    
+                    // Trail effect - dimmer characters above
+                    for (let j = 1; j < 10; j++) {
+                        const trailY = y - (j * this.fontSize);
+                        if (trailY > 0) {
+                            const opacity = (10 - j) / 10;
+                            this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.5})`;
+                            const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
+                            this.ctx.fillText(trailChar, x, trailY);
+                        }
+                    }
+                    
+                    // Reset drop to top randomly
+                    if (y > this.canvas.height && Math.random() > 0.975) {
+                        this.drops[i] = 0;
+                    }
+                    
+                    // Move drop down
+                    this.drops[i] += this.isLowEnd ? 0.5 : 1;
+                }
+            }
+            
+            animate() {
+                this.draw();
+                requestAnimationFrame(() => this.animate());
+            }
+        }
+        
+        function initMatrixEffects() {
+            const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // Fewer columns to prevent too many drops
-                let numColumns = 8;
-                if (isMobile) numColumns = 6;
-                if (isLowEnd) numColumns = 4;
+                // Clear any existing content
+                container.innerHTML = '';
+                container.className = 'matrix-background';
                 
-                // Create array of random positions for random starting order
-                const positions = [];
-                for (let i = 0; i < numColumns; i++) {
-                    positions.push(i);
-                }
-                
-                // Shuffle positions for random starting order
-                for (let i = positions.length - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [positions[i], positions[j]] = [positions[j], positions[i]];
-                }
-                
-                const columnWidth = 100 / numColumns;
-                
-                // Create columns in random order
-                for (let i = 0; i < numColumns; i++) {
-                    const positionIndex = positions[i];
-                    
-                    setTimeout(() => {
-                        const column = document.createElement('div');
-                        column.className = 'matrix-column';
-                        
-                        // Characters per column
-                        let numChars = 15 + Math.floor(Math.random() * 10);
-                        if (isMobile) numChars = 12 + Math.floor(Math.random() * 8);
-                        if (isLowEnd) numChars = 10 + Math.floor(Math.random() * 6);
-                        
-                        // Build column of characters
-                        for (let j = 0; j < numChars; j++) {
-                            const span = document.createElement('span');
-                            const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                            span.textContent = char;
-                            
-                            // Better fade effect for trailing
-                            const opacity = (1 - (j / numChars) * 0.8);
-                            span.style.opacity = opacity;
-                            
-                            column.appendChild(span);
-                        }
-                        
-                        // Position column with better distribution
-                        column.style.left = (positionIndex * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
-                        
-                        // Faster animation durations for good speed
-                        let duration = 8 + Math.random() * 12; // 8-20 seconds
-                        if (isMobile) duration = 6 + Math.random() * 10; // 6-16 seconds
-                        if (isLowEnd) duration = 10 + Math.random() * 8; // 10-18 seconds
-                        
-                        column.style.animationDuration = duration + 's';
-                        
-                        // Random delays for each column
-                        column.style.animationDelay = Math.random() * 2 + 's'; // 0-2 seconds
-                        
-                        container.appendChild(column);
-                    }, i * 100); // 100ms delay between each column creation
-                }
+                // Initialize canvas-based matrix rain
+                new MatrixRain(container);
             });
         }
 
