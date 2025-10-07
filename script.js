@@ -619,15 +619,15 @@ function startEpicAnimation() {
     terminalLines.forEach((line, index) => {
         setTimeout(() => {
             // Store original text
-            const originalText = line.textContent;
-            line.textContent = '';
+            const originalText = line.innerHTML; // Use innerHTML to preserve spans
+            line.innerHTML = '';
             line.classList.add('typing');
             
             // Type out the text character by character
             let charIndex = 0;
             const typingInterval = setInterval(() => {
                 if (charIndex < originalText.length) {
-                    line.textContent += originalText[charIndex];
+                    line.innerHTML += originalText[charIndex];
                     charIndex++;
                 } else {
                     clearInterval(typingInterval);
@@ -636,7 +636,7 @@ function startEpicAnimation() {
                         line.classList.remove('typing');
                     }, 500);
                 }
-            }, 50); // Type each character every 50ms
+            }, 30); // Type each character every 30ms for faster typing
         }, (5 + index) * 1000); // Start typing 2 seconds earlier
     });
     
