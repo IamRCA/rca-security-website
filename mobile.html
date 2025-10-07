@@ -1545,9 +1545,9 @@ Will run 8 OpenMP threads
                 
                 const columnWidth = 100 / numColumns;
                 
-                // Create columns with staggered timing to prevent lag
+                // Create columns with much more staggered timing to prevent lag
                 for (let i = 0; i < numColumns; i++) {
-                    // Delay each column creation to spread them out
+                    // Much longer delay between each column creation to spread them out
                     setTimeout(() => {
                         const column = document.createElement('div');
                         column.className = 'matrix-column';
@@ -1573,18 +1573,18 @@ Will run 8 OpenMP threads
                         // Position column with better distribution
                         column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
                         
-                        // Varied animation speeds for natural effect
-                        let duration = 8 + Math.random() * 12; // Longer durations
-                        if (isMobile) duration = 6 + Math.random() * 10;
-                        if (isLowEnd) duration = 10 + Math.random() * 8;
+                        // Much longer animation durations to reduce frequency
+                        let duration = 12 + Math.random() * 18; // 12-30 seconds
+                        if (isMobile) duration = 10 + Math.random() * 15; // 10-25 seconds
+                        if (isLowEnd) duration = 15 + Math.random() * 12; // 15-27 seconds
                         
                         column.style.animationDuration = duration + 's';
                         
-                        // Spread out the initial delays more
-                        column.style.animationDelay = Math.random() * 8 + 's';
+                        // Much longer delays between drops
+                        column.style.animationDelay = Math.random() * 15 + 's'; // 0-15 seconds
                         
                         container.appendChild(column);
-                    }, i * 200); // 200ms delay between each column creation
+                    }, i * 800); // 800ms delay between each column creation (was 200ms)
                 }
             });
         }
