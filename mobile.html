@@ -1008,30 +1008,30 @@
             right: 0;
             bottom: 0;
             pointer-events: none;
-            opacity: 0.15;
+            opacity: 0.25;
             z-index: 6;
             overflow: hidden;
         }
 
         .cli-window {
             position: absolute;
-            background: rgba(0, 0, 0, 0.7);
-            border: 1px solid rgba(0, 102, 255, 0.4);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 200, 255, 0.6);
             border-radius: 4px;
             font-family: 'Courier New', monospace;
             font-size: 9px;
-            color: rgba(0, 170, 255, 0.5);
+            color: rgba(0, 255, 255, 0.7);
             padding: 8px;
             line-height: 1.2;
             white-space: pre;
             animation: cliTyping 15s linear infinite;
-            box-shadow: 0 0 8px rgba(0, 102, 255, 0.2);
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
         }
 
         @keyframes cliTyping {
-            0% { opacity: 0.15; }
-            50% { opacity: 0.25; }
-            100% { opacity: 0.15; }
+            0% { opacity: 0.25; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.25; }
         }
 
         @keyframes matrixRain {
