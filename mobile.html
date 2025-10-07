@@ -1538,49 +1538,53 @@ Will run 8 OpenMP threads
                 const container = document.getElementById(containerId);
                 if (!container) return;
                 
-                // More columns for better coverage
+                // Total columns for good coverage
                 let numColumns = 15;
                 if (isMobile) numColumns = 12;
                 if (isLowEnd) numColumns = 10;
                 
                 const columnWidth = 100 / numColumns;
                 
+                // Create columns with staggered timing to prevent lag
                 for (let i = 0; i < numColumns; i++) {
-                    const column = document.createElement('div');
-                    column.className = 'matrix-column';
-                    
-                    // More characters for continuous rain effect
-                    let numChars = 15 + Math.floor(Math.random() * 10);
-                    if (isMobile) numChars = 12 + Math.floor(Math.random() * 8);
-                    if (isLowEnd) numChars = 10 + Math.floor(Math.random() * 6);
-                    
-                    // Build column of characters
-                    for (let j = 0; j < numChars; j++) {
-                        const span = document.createElement('span');
-                        const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
-                        span.textContent = char;
+                    // Delay each column creation to spread them out
+                    setTimeout(() => {
+                        const column = document.createElement('div');
+                        column.className = 'matrix-column';
                         
-                        // Better fade effect for trailing
-                        const opacity = (1 - (j / numChars) * 0.8);
-                        span.style.opacity = opacity;
+                        // Characters per column
+                        let numChars = 15 + Math.floor(Math.random() * 10);
+                        if (isMobile) numChars = 12 + Math.floor(Math.random() * 8);
+                        if (isLowEnd) numChars = 10 + Math.floor(Math.random() * 6);
                         
-                        column.appendChild(span);
-                    }
-                    
-                    // Position column with better distribution
-                    column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
-                    
-                    // Varied animation speeds for natural effect
-                    let duration = 6 + Math.random() * 8;
-                    if (isMobile) duration = 5 + Math.random() * 6;
-                    if (isLowEnd) duration = 8 + Math.random() * 6;
-                    
-                    column.style.animationDuration = duration + 's';
-                    
-                    // Staggered delays for continuous effect
-                    column.style.animationDelay = Math.random() * 5 + 's';
-                    
-                    container.appendChild(column);
+                        // Build column of characters
+                        for (let j = 0; j < numChars; j++) {
+                            const span = document.createElement('span');
+                            const char = matrixChars[Math.floor(Math.random() * matrixChars.length)];
+                            span.textContent = char;
+                            
+                            // Better fade effect for trailing
+                            const opacity = (1 - (j / numChars) * 0.8);
+                            span.style.opacity = opacity;
+                            
+                            column.appendChild(span);
+                        }
+                        
+                        // Position column with better distribution
+                        column.style.left = (i * columnWidth) + (Math.random() * columnWidth * 0.3) + '%';
+                        
+                        // Varied animation speeds for natural effect
+                        let duration = 8 + Math.random() * 12; // Longer durations
+                        if (isMobile) duration = 6 + Math.random() * 10;
+                        if (isLowEnd) duration = 10 + Math.random() * 8;
+                        
+                        column.style.animationDuration = duration + 's';
+                        
+                        // Spread out the initial delays more
+                        column.style.animationDelay = Math.random() * 8 + 's';
+                        
+                        container.appendChild(column);
+                    }, i * 200); // 200ms delay between each column creation
                 }
             });
         }
