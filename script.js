@@ -314,20 +314,37 @@ function initContactForm() {
         const formData = new FormData(form);
         const data = Object.fromEntries(formData);
         
-        // Create mailto link
-        const subject = `Contact from ${data.name}${data.company ? ` at ${data.company}` : ''}`;
-        const body = `Name: ${data.name}\nEmail: ${data.email}${data.company ? `\nCompany: ${data.company}` : ''}\n\nMessage:\n${data.message}`;
+        // Show loading state
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'Sending...';
+        submitBtn.disabled = true;
         
-        const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-        
-        // Open email client
-        window.location.href = mailtoLink;
-        
-        // Reset form
-        form.reset();
-        
-        // Show success message
-        showNotification('Your email client should open with a pre-filled message.', 'success');
+        // Send email using EmailJS
+        emailjs.send('service_your_service_id', 'template_your_template_id', {
+            from_name: data.name,
+            from_email: data.email,
+            company: data.company || 'Not provided',
+            message: data.message,
+            to_email: 'info@rcasecuritygroup.com'
+        })
+        .then(function(response) {
+            // Success
+            form.reset();
+            showNotification('Message sent successfully! We\'ll get back to you soon.', 'success');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }, function(error) {
+            // Error - fallback to mailto
+            console.error('EmailJS failed:', error);
+            const subject = `Contact from ${data.name}${data.company ? ` at ${data.company}` : ''}`;
+            const body = `Name: ${data.name}\nEmail: ${data.email}${data.company ? `\nCompany: ${data.company}` : ''}\n\nMessage:\n${data.message}`;
+            const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+            window.location.href = mailtoLink;
+            showNotification('Email client opened. Please send the message manually.', 'warning');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        });
     });
 }
 

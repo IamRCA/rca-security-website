@@ -1466,7 +1466,7 @@ Will run 8 OpenMP threads
             });
         }
 
-        // Contact form handling
+        // Contact form handling with EmailJS
         document.getElementById('contact-form-mobile').addEventListener('submit', function(e) {
             e.preventDefault();
             
@@ -1483,17 +1483,37 @@ Will run 8 OpenMP threads
                 return;
             }
             
-            // Create mailto link
-            const subject = `Contact from ${name}${company ? ` at ${company}` : ''}`;
-            const body = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`;
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
             
-            const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-            
-            // Open email client
-            window.location.href = mailtoLink;
-            
-            // Show success message
-            alert('Thank you! Your email client should open with a pre-filled message.');
+            // Send email using EmailJS
+            emailjs.send('service_your_service_id', 'template_your_template_id', {
+                from_name: name,
+                from_email: email,
+                company: company || 'Not provided',
+                message: message,
+                to_email: 'info@rcasecuritygroup.com'
+            })
+            .then(function(response) {
+                // Success
+                alert('Thank you! Your message has been sent successfully. We\'ll get back to you soon!');
+                document.getElementById('contact-form-mobile').reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, function(error) {
+                // Error - fallback to mailto
+                console.error('EmailJS failed:', error);
+                const subject = `Contact from ${name}${company ? ` at ${company}` : ''}`;
+                const body = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`;
+                const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
+                alert('Email client opened. Please send the message manually.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
         });
 
         // Optimized Matrix Digital Rain Effect
@@ -1705,5 +1725,12 @@ Will run 8 OpenMP threads
         });
     </script>
     <script src="security-config.js"></script>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your public key
+        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+    </script>
 </body>
 </html>
