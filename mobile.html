@@ -1532,8 +1532,8 @@ Will run 8 OpenMP threads
                     // Only draw if column is within screen bounds
                     if (x < this.canvas.width) {
                         // Much more frequent random drop starts - continuous rain
-                        if (this.drops[i] === 0 && Math.random() > 0.85) {
-                            this.drops[i] = -Math.random() * 300; // Start from above screen
+                        if (this.drops[i] === 0 && Math.random() > 0.6) {
+                            this.drops[i] = -Math.random() * 400; // Start from above screen
                         }
                         
                         const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
@@ -1558,9 +1558,9 @@ Will run 8 OpenMP threads
                         }
                         
                         // Very frequent restarts - no waves, just continuous rain
-                        const restartChance = this.isMobile ? 0.88 : 0.90;
+                        const restartChance = this.isMobile ? 0.75 : 0.80;
                         if (y > this.canvas.height && Math.random() > restartChance) {
-                            this.drops[i] = -Math.random() * 200; // Restart from above screen
+                            this.drops[i] = -Math.random() * 300; // Restart from above screen
                         }
                         
                         // Fast movement for continuous effect
@@ -1576,12 +1576,17 @@ Will run 8 OpenMP threads
         }
         
         function initMatrixEffects() {
+            console.log('Initializing Matrix effects...');
             const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
             
             matrixContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
-                if (!container) return;
+                if (!container) {
+                    console.log(`Container ${containerId} not found`);
+                    return;
+                }
                 
+                console.log(`Creating Matrix effect for ${containerId}`);
                 // Clear any existing content
                 container.innerHTML = '';
                 container.className = 'matrix-background';
