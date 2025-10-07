@@ -851,6 +851,38 @@
             transform: scale(1.05);
         }
 
+        /* Floating CTA Button */
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: floatBounce 2s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-cta-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .floating-cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 102, 255, 0.6);
+        }
+
         @keyframes floatBounce {
             0%, 100% { transform: translateY(0px); }
             50% { transform: translateY(-10px); }
@@ -1060,31 +1092,6 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Navigation -->
-    <nav class="mobile-nav">
-        <!-- Matrix Rain Effect -->
-        <div class="matrix-rain">
-            <div class="matrix-column">01010101<br>11001011<br>00110100<br>10101010<br>01100110<br>10011001</div>
-            <div class="matrix-column">10110110<br>01001001<br>11010101<br>00101010<br>10110110<br>01001001</div>
-            <div class="matrix-column">01101001<br>10010110<br>01011001<br>10100110<br>01011001<br>10010110</div>
-            <div class="matrix-column">11001100<br>00110011<br>11001100<br>00110011<br>11001100<br>00110011</div>
-            <div class="matrix-column">10101010<br>01010101<br>10101010<br>01010101<br>10101010<br>01010101</div>
-            <div class="matrix-column">01100110<br>10011001<br>01100110<br>10011001<br>01100110<br>10011001</div>
-        </div>
-        <div class="nav-content">
-            <div class="mobile-logo">
-                <div class="logo-icon">R</div>
-                <div class="logo-text">RCA SECURITY</div>
-            </div>
-            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-        </div>
-        <div class="mobile-menu" id="mobile-menu">
-            <a href="#home" onclick="closeMenu()">Home</a>
-            <a href="#services" onclick="closeMenu()">Services</a>
-            <a href="#pricing" onclick="closeMenu()">Pricing</a>
-            <a href="#contact" onclick="closeMenu()">Contact</a>
-        </div>
-    </nav>
 
     <!-- Hero Section -->
     <section id="home" class="hero-mobile">
@@ -1338,17 +1345,16 @@
         </div>
     </footer>
 
-    <script>
-        // Mobile menu toggle
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('active');
-        }
+    <!-- Floating CTA Button -->
+    <div class="floating-cta">
+        <a href="#contact" class="floating-cta-btn">
+            <span>🚀</span>
+            <span>Get Started</span>
+        </a>
+    </div>
 
-        function closeMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.remove('active');
-        }
+    <script>
+        // Mobile navigation removed
 
         // Fade-in animation on scroll
         function handleFadeIn() {
@@ -1484,18 +1490,7 @@
             observer.observe(el);
         });
 
-        // Floating CTA removed
-
-        // Scroll direction detection for floating CTA and navbar
-        let lastScrollTop = 0;
-        let scrollTimeout;
-        const navbar = document.querySelector('.mobile-nav');
-        
-        // Initialize navbar as visible
-        if (navbar) {
-            navbar.classList.remove('nav-hidden');
-        }
-        
+        // Parallax effect for hero
         window.addEventListener('scroll', () => {
             const scrolled = window.pageYOffset;
             const hero = document.querySelector('.hero-mobile');
@@ -1505,28 +1500,6 @@
             if (hero && scrolled < window.innerHeight) {
                 cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
             }
-            
-            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-            
-            // Clear existing timeout
-            clearTimeout(scrollTimeout);
-            
-            // Navbar hide/show logic with threshold
-            const scrollThreshold = 5; // Minimum scroll distance to trigger
-            
-            if (Math.abs(scrollTop - lastScrollTop) > scrollThreshold) {
-                if (scrollTop > lastScrollTop && scrollTop > 100) {
-                    // Scrolling down - hide navbar
-                    navbar.classList.add('nav-hidden');
-                } else if (scrollTop < lastScrollTop || scrollTop < 50) {
-                    // Scrolling up or near top - show navbar
-                    navbar.classList.remove('nav-hidden');
-                }
-            }
-            
-            // Floating CTA removed
-            
-            lastScrollTop = scrollTop;
         });
 
         // Add micro-interaction to service cards
