@@ -567,28 +567,18 @@ function initLoadingSequence() {
     // Check URL parameters to determine if we should show the demo
     const urlParams = new URLSearchParams(window.location.search);
     
-    // Always use split-screen demo now (old demo disabled)
-    if (!urlParams.get('skip') && urlParams.get('demo') !== 'false' && !urlParams.get('home') && !window.location.pathname.includes('/home')) {
-        window.location.href = 'split-screen-demo.html';
-        return;
-    }
-    
-    const skipDemo = urlParams.get('skip') === 'true' || 
-                    urlParams.get('demo') === 'false' || 
-                    urlParams.get('home') === 'true' ||
-                    window.location.pathname.includes('/home');
-    
-    // If skip demo, go straight to website
-    if (skipDemo) {
-        loadingScreen.style.display = 'none';
-        return;
-    }
-    
     // Check if user has seen the demo before (localStorage)
     const hasSeenDemo = localStorage.getItem('rca_demo_seen') === 'true';
     
-    // If they've seen it before and no explicit demo request, skip
-    if (hasSeenDemo && !urlParams.get('demo') === 'true') {
+    // Check if we should skip demo
+    const skipDemo = urlParams.get('skip') === 'true' || 
+                    urlParams.get('demo') === 'false' || 
+                    urlParams.get('home') === 'true' ||
+                    window.location.pathname.includes('/home') ||
+                    hasSeenDemo; // Skip if they've seen it before
+    
+    // If skip demo, go straight to website
+    if (skipDemo) {
         loadingScreen.style.display = 'none';
         return;
     }
