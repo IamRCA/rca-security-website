@@ -59,14 +59,58 @@
                 repeating-linear-gradient(
                     90deg,
                     transparent,
-                    transparent 2px,
-                    rgba(0, 102, 255, 0.02) 2px,
-                    rgba(0, 102, 255, 0.02) 4px
+                    transparent 8px,
+                    rgba(0, 102, 255, 0.1) 8px,
+                    rgba(0, 102, 255, 0.1) 16px
                 );
-            animation: matrixFlow 15s linear infinite;
+            animation: matrixFlow 12s linear infinite;
             pointer-events: none;
-            opacity: 0.5;
+            opacity: 0.7;
         }
+
+        .mobile-nav::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 170, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Matrix Rain Effect */
+        .matrix-rain {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.3;
+        }
+
+        .matrix-column {
+            position: absolute;
+            top: -100%;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            color: var(--primary-color);
+            line-height: 1.2;
+            animation: matrixFall linear infinite;
+            white-space: nowrap;
+        }
+
+        .matrix-column:nth-child(1) { left: 10%; animation-duration: 3s; animation-delay: 0s; }
+        .matrix-column:nth-child(2) { left: 25%; animation-duration: 4s; animation-delay: 0.5s; }
+        .matrix-column:nth-child(3) { left: 40%; animation-duration: 3.5s; animation-delay: 1s; }
+        .matrix-column:nth-child(4) { left: 55%; animation-duration: 4.5s; animation-delay: 1.5s; }
+        .matrix-column:nth-child(5) { left: 70%; animation-duration: 3.2s; animation-delay: 2s; }
+        .matrix-column:nth-child(6) { left: 85%; animation-duration: 4.2s; animation-delay: 2.5s; }
 
         .nav-content {
             display: flex;
@@ -828,6 +872,23 @@
             100% { background-position: 100px 0; }
         }
 
+        @keyframes matrixFall {
+            0% { 
+                transform: translateY(-100%);
+                opacity: 0;
+            }
+            10% { 
+                opacity: 1;
+            }
+            90% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: translateY(100vh);
+                opacity: 0;
+            }
+        }
+
         /* Section Dividers */
         .section-divider {
             height: 2px;
@@ -934,6 +995,15 @@
 <body>
     <!-- Mobile Navigation -->
     <nav class="mobile-nav">
+        <!-- Matrix Rain Effect -->
+        <div class="matrix-rain">
+            <div class="matrix-column">01010101<br>11001011<br>00110100<br>10101010<br>01100110<br>10011001</div>
+            <div class="matrix-column">10110110<br>01001001<br>11010101<br>00101010<br>10110110<br>01001001</div>
+            <div class="matrix-column">01101001<br>10010110<br>01011001<br>10100110<br>01011001<br>10010110</div>
+            <div class="matrix-column">11001100<br>00110011<br>11001100<br>00110011<br>11001100<br>00110011</div>
+            <div class="matrix-column">10101010<br>01010101<br>10101010<br>01010101<br>10101010<br>01010101</div>
+            <div class="matrix-column">01100110<br>10011001<br>01100110<br>10011001<br>01100110<br>10011001</div>
+        </div>
         <div class="nav-content">
             <div class="mobile-logo">
                 <div class="logo-icon">R</div>
