@@ -714,6 +714,14 @@ document.addEventListener('DOMContentLoaded', () => {
         window.location.href = 'mobile.html';
         return;
     }
+
+    // Fix hero title animations
+    setTimeout(() => {
+        const titleLines = document.querySelectorAll('.title-line');
+        titleLines.forEach((line, index) => {
+            line.style.animation = `slideInUp 0.8s ease ${index * 0.1}s forwards`;
+        });
+    }, 100);
     
     // Initialize particle system
     new ParticleSystem();
