@@ -41,19 +41,12 @@ body {
         );
 }
 
-/* Epic Loading Screen Animation - 20 Second Cinematic Experience */
+/* DEMO HIDDEN - Loading screen completely hidden */
 .loading-screen {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: #000;
-    z-index: 10000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
 }
 
 .loading-content {
@@ -65,20 +58,23 @@ body {
     justify-content: center;
 }
 
-/* Intro Screen */
+/* DEMO HIDDEN - Intro screen completely hidden */
 .intro-screen {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, rgba(26, 26, 46, 0.95) 0%, rgba(10, 10, 10, 0.98) 100%);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 10001;
-    opacity: 1;
-    transition: opacity 1s ease-out;
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+}
+
+/* Ensure main content is visible */
+body {
+    overflow: auto !important;
+}
+
+.navbar, .hero, .services, .about, .team, .contact, .footer {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
 }
 
 .intro-screen.fade-out {
