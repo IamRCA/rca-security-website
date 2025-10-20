@@ -82,8 +82,8 @@
             opacity: 0.6;
         }
 
-        /* Matrix Rain Effect */
-        .matrix-rain {
+        /* Professional Data Stream Effect */
+        .data-stream-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -91,26 +91,36 @@
             bottom: 0;
             pointer-events: none;
             overflow: hidden;
-            opacity: 0.3;
+            opacity: 0.4;
+            background: linear-gradient(135deg, rgba(0, 50, 100, 0.08) 0%, rgba(0, 100, 150, 0.04) 100%);
         }
 
-        .matrix-column {
+        .data-stream-line {
             position: absolute;
-            top: -100%;
-            font-family: 'Courier New', monospace;
-            font-size: 12px;
-            color: var(--primary-color);
-            line-height: 1.2;
-            animation: matrixFall linear infinite;
-            white-space: nowrap;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: dataFlow linear infinite;
+            opacity: 0.6;
         }
 
-        .matrix-column:nth-child(1) { left: 10%; animation-duration: 3s; animation-delay: 0s; }
-        .matrix-column:nth-child(2) { left: 25%; animation-duration: 4s; animation-delay: 0.5s; }
-        .matrix-column:nth-child(3) { left: 40%; animation-duration: 3.5s; animation-delay: 1s; }
-        .matrix-column:nth-child(4) { left: 55%; animation-duration: 4.5s; animation-delay: 1.5s; }
-        .matrix-column:nth-child(5) { left: 70%; animation-duration: 3.2s; animation-delay: 2s; }
-        .matrix-column:nth-child(6) { left: 85%; animation-duration: 4.2s; animation-delay: 2.5s; }
+        .data-stream-line:nth-child(1) { top: 20%; left: 0; width: 30%; animation-duration: 4s; animation-delay: 0s; }
+        .data-stream-line:nth-child(2) { top: 40%; left: 20%; width: 25%; animation-duration: 5s; animation-delay: 1s; }
+        .data-stream-line:nth-child(3) { top: 60%; left: 10%; width: 35%; animation-duration: 3.5s; animation-delay: 2s; }
+        .data-stream-line:nth-child(4) { top: 80%; left: 30%; width: 20%; animation-duration: 4.5s; animation-delay: 0.5s; }
+
+        /* Professional Background */
+        .professional-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 100, 200, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 150, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0.6;
+        }
 
         .nav-content {
             display: flex;
@@ -905,19 +915,19 @@
             100% { background-position: 100px 0; }
         }
 
-        @keyframes matrixFall {
+        @keyframes dataFlow {
             0% { 
-                transform: translateY(-100%);
+                transform: translateX(-100%);
                 opacity: 0;
             }
-            10% { 
-                opacity: 1;
+            20% { 
+                opacity: 0.8;
             }
-            90% { 
-                opacity: 1;
+            80% { 
+                opacity: 0.8;
             }
             100% { 
-                transform: translateY(100vh);
+                transform: translateX(100vw);
                 opacity: 0;
             }
         }
@@ -1112,42 +1122,15 @@
 
     <!-- Hero Section -->
     <section id="home" class="hero-mobile">
-        <!-- Faded CLI Windows Background -->
-        <div class="cli-background" id="hero-cli">
-            <div class="cli-window" style="top: 15%; left: 2%; width: 140px; height: 80px;">
-root@kali:~# nmap -sS 192.168.1.1
-PORT     STATE SERVICE
-22/tcp   open  ssh
-80/tcp   open  http
-root@kali:~# hydra -l admin -P pass.txt 192.168.1.1 ssh
-[22][ssh] host: 192.168.1.1 login: admin password: admin123
-            </div>
-            <div class="cli-window" style="top: 40%; right: 3%; width: 130px; height: 70px;">
-$ python3 exploit.py
-[*] Target: 10.0.0.1:8080
-[*] Exploiting CVE-2021-44228...
-[*] Payload sent successfully
-$ whoami
-root
-$ cat /etc/passwd
-            </div>
-            <div class="cli-window" style="bottom: 25%; left: 5%; width: 120px; height: 60px;">
-┌─[user@hacker]─[~]
-└──╼ $ sqlmap -u "http://target.com/login"
-[INFO] testing connection to the target URL
-[INFO] checking if the target is protected by some kind of WAF/IPS
-[INFO] target URL content is stable
-            </div>
-            <div class="cli-window" style="top: 60%; left: 50%; width: 125px; height: 65px;">
-kali@kali:~$ john --wordlist=rockyou.txt hash.txt
-Using default input encoding: UTF-8
-Loaded 1 password hash (MD5 [MD5 128/128 SSE2 4x3])
-Will run 8 OpenMP threads
-0g 0:00:00:03 3.33% (ETA: 00:00:01:27) 0g/s 1234Kp/s 1234Kc/s
-            </div>
+        <!-- Professional Data Stream Background -->
+        <div class="data-stream-bg" id="hero-data-stream">
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
         </div>
-        <!-- Matrix Background -->
-        <div class="matrix-background" id="hero-matrix"></div>
+        <!-- Professional Background Elements -->
+        <div class="professional-bg" id="hero-professional"></div>
         <div class="cyber-elements">
             <div class="floating-icon cyber-shield"></div>
             <div class="floating-icon cyber-lock"></div>
@@ -1450,148 +1433,42 @@ Will run 8 OpenMP threads
             });
         });
 
-        // High-Performance Canvas-based Matrix Digital Rain Effect
-        class MatrixRain {
+        // Professional Data Stream Effect
+        class ProfessionalDataStream {
             constructor(container) {
                 this.container = container;
-                this.canvas = document.createElement('canvas');
-                this.ctx = this.canvas.getContext('2d');
-                this.container.appendChild(this.canvas);
-                console.log('MatrixRain created, canvas added to:', container.id);
-                
-                // Matrix characters
-                this.matrixChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-                
-                // Performance settings
-                this.isMobile = window.innerWidth <= 768;
-                this.isLowEnd = navigator.hardwareConcurrency <= 4 || navigator.deviceMemory <= 4;
-                
-                this.fontSize = this.isMobile ? 12 : 14;
-                this.drops = []; // Array of all active drops across all columns
-                
-                this.init();
-                this.animate();
+                console.log('ProfessionalDataStream created for:', container.id);
+                // Simple professional background - no complex animations needed
             }
             
-            init() {
-                this.resize();
-                window.addEventListener('resize', () => this.resize());
-                
-                // Create column positions
-                const numColumns = this.isLowEnd ? 15 : (this.isMobile ? 20 : 25);
-                this.columnPositions = [];
-                const columnWidth = this.fontSize * 2.5;
-                for (let i = 0; i < numColumns; i++) {
-                    this.columnPositions.push(i * columnWidth + Math.random() * 20);
-                }
-                
-                // Set font
-                this.ctx.font = `${this.fontSize}px 'Courier New', monospace`;
-            }
-            
-            resize() {
-                const rect = this.container.getBoundingClientRect();
-                this.canvas.width = rect.width;
-                this.canvas.height = rect.height;
-                this.canvas.style.width = rect.width + 'px';
-                this.canvas.style.height = rect.height + 'px';
-            }
-            
-            draw() {
-                // Semi-transparent black background for trailing effect
-                this.ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-                
-                
-                // Add multiple new drops randomly - truly continuous
-                // Add 3-5 new drops every frame across random columns
-                const numNewDrops = Math.floor(Math.random() * 3) + 3; // 3-5 new drops per frame
-                for (let i = 0; i < numNewDrops; i++) {
-                    const randomColumn = Math.floor(Math.random() * this.columnPositions.length);
-                    const x = this.columnPositions[randomColumn];
-                    if (x < this.canvas.width) {
-                        // Create new drop with random timing
-                        this.drops.push({
-                            x: x,
-                            y: -Math.random() * 800, // Start even further above
-                            speed: (this.isLowEnd ? 1.0 : (this.isMobile ? 1.5 : 2.0)) + Math.random() * 2.0, // More variable speed
-                            startTime: Date.now() // Start immediately
-                        });
-                    }
-                }
-                
-                // Debug: Log drop count every 60 frames
-                if (Math.random() < 0.01) {
-                    console.log(`Active drops: ${this.drops.length}, Canvas size: ${this.canvas.width}x${this.canvas.height}`);
-                }
-                
-                // Update and draw all drops
-                for (let i = this.drops.length - 1; i >= 0; i--) {
-                    const drop = this.drops[i];
-                    
-                    // Only start moving after the random delay
-                    if (Date.now() >= drop.startTime) {
-                        drop.y += drop.speed;
-                    }
-                    
-                    // Draw drop if visible
-                    if (drop.y > -this.fontSize && drop.y < this.canvas.height + this.fontSize) {
-                        const char = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                        
-                        // Bright character at head
-                        this.ctx.fillStyle = '#00AAFF';
-                        this.ctx.fillText(char, drop.x, drop.y);
-                        
-                        // Trail effect
-                        for (let j = 1; j < 8; j++) {
-                            const trailY = drop.y - (j * this.fontSize);
-                            if (trailY > 0) {
-                                const opacity = (8 - j) / 8;
-                                this.ctx.fillStyle = `rgba(0, 102, 255, ${opacity * 0.6})`;
-                                const trailChar = this.matrixChars[Math.floor(Math.random() * this.matrixChars.length)];
-                                this.ctx.fillText(trailChar, drop.x, trailY);
-                            }
-                        }
-                    }
-                    
-                    // Remove drops that are off screen
-                    if (drop.y > this.canvas.height + 100) {
-                        this.drops.splice(i, 1);
-                    }
-                }
-            }
-            
-            animate() {
-                this.draw();
-                requestAnimationFrame(() => this.animate());
-            }
+            // Simple professional background - no complex animations needed
         }
         
-        function initMatrixEffects() {
-            console.log('Initializing Matrix effects...');
-            const matrixContainers = ['hero-matrix', 'services-matrix', 'contact-matrix'];
+        function initProfessionalEffects() {
+            console.log('Initializing professional effects...');
+            const professionalContainers = ['hero-professional', 'services-professional', 'contact-professional'];
             
-            matrixContainers.forEach(containerId => {
+            professionalContainers.forEach(containerId => {
                 const container = document.getElementById(containerId);
                 if (!container) {
                     console.log(`Container ${containerId} not found`);
                     return;
                 }
                 
-                console.log(`Creating Matrix effect for ${containerId}`);
+                console.log(`Creating professional effect for ${containerId}`);
                 // Clear any existing content
                 container.innerHTML = '';
-                container.className = 'matrix-background';
+                container.className = 'professional-background';
                 
-                // Initialize canvas-based matrix rain
-                new MatrixRain(container);
+                // Initialize professional data stream
+                new ProfessionalDataStream(container);
             });
         }
 
         // Initialize animations
         window.addEventListener('scroll', handleFadeIn);
         window.addEventListener('load', handleFadeIn);
-        window.addEventListener('load', initMatrixEffects);
+        window.addEventListener('load', initProfessionalEffects);
 
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
