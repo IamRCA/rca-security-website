@@ -682,6 +682,32 @@ function startEpicAnimation() {
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
+    // FORCE HIDE DEMO - Completely remove any demo elements
+    const loadingScreen = document.getElementById('loading-screen');
+    const introScreen = document.getElementById('intro-screen');
+    const loadingContent = document.querySelector('.loading-content');
+    
+    if (loadingScreen) {
+        loadingScreen.style.display = 'none';
+        loadingScreen.style.visibility = 'hidden';
+        loadingScreen.style.opacity = '0';
+        loadingScreen.style.pointerEvents = 'none';
+        loadingScreen.remove();
+    }
+    
+    if (introScreen) {
+        introScreen.style.display = 'none';
+        introScreen.style.visibility = 'hidden';
+        introScreen.style.opacity = '0';
+        introScreen.style.pointerEvents = 'none';
+        introScreen.remove();
+    }
+    
+    if (loadingContent) {
+        loadingContent.style.display = 'none';
+        loadingContent.remove();
+    }
+    
     // DEMO HIDDEN - Simple mobile redirect only
     const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
     if (isMobile && !window.location.pathname.includes('mobile.html')) {

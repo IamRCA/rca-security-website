@@ -69,12 +69,27 @@ body {
 /* Ensure main content is visible */
 body {
     overflow: auto !important;
+    position: static !important;
+}
+
+/* Force hide any demo elements that might still exist */
+#loading-screen, .loading-screen, #intro-screen, .intro-screen, .loading-content {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    pointer-events: none !important;
+    position: absolute !important;
+    left: -9999px !important;
+    top: -9999px !important;
+    z-index: -1 !important;
 }
 
 .navbar, .hero, .services, .about, .team, .contact, .footer {
     display: block !important;
     visibility: visible !important;
     opacity: 1 !important;
+    position: relative !important;
+    z-index: 1 !important;
 }
 
 .intro-screen.fade-out {
