@@ -562,6 +562,8 @@ function initEnhancedAnimations() {
     });
 }
 
+// DEMO HIDDEN - Commented out to hide demo functionality
+/*
 function initLoadingSequence() {
     const loadingScreen = document.getElementById('loading-screen');
     const introScreen = document.getElementById('intro-screen');
@@ -594,7 +596,10 @@ function initLoadingSequence() {
     }
     setupIntroScreen();
 }
+*/
 
+// DEMO HIDDEN - Commented out to hide demo functionality
+/*
 function setupIntroScreen() {
     const demoBtn = document.getElementById('start-split-demo');
     const skipBtn = document.getElementById('skip-animation');
@@ -621,7 +626,10 @@ function setupIntroScreen() {
         }, 1000);
     });
 }
+*/
 
+// DEMO HIDDEN - Commented out to hide demo functionality
+/*
 function startEpicAnimation() {
     // Add typing effect to terminal lines - ONE AT A TIME
     const terminalLines = document.querySelectorAll('.terminal-line');
@@ -670,11 +678,16 @@ function startEpicAnimation() {
         window.location.href = 'victory.html';
     }, 44000); // 44 seconds total (34s animation + 10s redirect screen)
 }
+*/
 
 // Initialize everything when DOM is loaded
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize loading sequence first
-    initLoadingSequence();
+    // DEMO HIDDEN - Simple mobile redirect only
+    const isMobile = window.innerWidth <= 768 || /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    if (isMobile && !window.location.pathname.includes('mobile.html')) {
+        window.location.href = 'mobile.html';
+        return;
+    }
     
     // Initialize particle system
     new ParticleSystem();
