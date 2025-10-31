@@ -1,0 +1,1616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCA Security Group - Mobile</title>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #0066ff;
+            --secondary-color: #00aaff;
+            --accent-color: #28a745;
+            --text-color: #e0e0e0;
+            --bg-color: #0a0a0a;
+            --card-bg: rgba(20, 20, 20, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, var(--bg-color), #1a1a1a);
+            color: var(--text-color);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Mobile Navigation */
+        .mobile-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            z-index: 1000;
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--primary-color);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow: hidden;
+        }
+
+        .mobile-nav.nav-hidden {
+            transform: translateY(-100%);
+        }
+
+        .mobile-nav::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 8px,
+                    rgba(0, 102, 255, 0.1) 8px,
+                    rgba(0, 102, 255, 0.1) 16px
+                );
+            animation: matrixFlow 12s linear infinite;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .mobile-nav::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(0, 102, 255, 0.05) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(0, 170, 255, 0.03) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        /* Professional Data Stream Effect */
+        .data-stream-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+            opacity: 0.4;
+            background: linear-gradient(135deg, rgba(0, 50, 100, 0.08) 0%, rgba(0, 100, 150, 0.04) 100%);
+        }
+
+        .data-stream-line {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            animation: dataFlow linear infinite;
+            opacity: 0.6;
+        }
+
+        .data-stream-line:nth-child(1) { top: 20%; left: 0; width: 30%; animation-duration: 4s; animation-delay: 0s; }
+        .data-stream-line:nth-child(2) { top: 40%; left: 20%; width: 25%; animation-duration: 5s; animation-delay: 1s; }
+        .data-stream-line:nth-child(3) { top: 60%; left: 10%; width: 35%; animation-duration: 3.5s; animation-delay: 2s; }
+        .data-stream-line:nth-child(4) { top: 80%; left: 30%; width: 20%; animation-duration: 4.5s; animation-delay: 0.5s; }
+
+        /* Professional Background */
+        .professional-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 30%, rgba(0, 100, 200, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(0, 150, 255, 0.08) 0%, transparent 50%);
+            pointer-events: none;
+            opacity: 0.6;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mobile-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: white;
+            position: relative;
+        }
+
+        .logo-icon::before,
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: white;
+            border-radius: 1px;
+        }
+
+        .logo-icon::before {
+            top: -2px;
+            right: -2px;
+            animation: pixelPulse 2s ease-in-out infinite;
+        }
+
+        .logo-icon::after {
+            bottom: -2px;
+            left: -2px;
+            animation: pixelPulse 2s ease-in-out infinite 0.5s;
+        }
+
+        .logo-text {
+            font-family: 'Orbitron', monospace;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary-color);
+        }
+
+        .menu-toggle {
+            background: none;
+            border: none;
+            color: var(--text-color);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 80px;
+            left: 0;
+            right: 0;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+            z-index: 999;
+            padding: 2rem 1rem;
+        }
+
+        .mobile-menu.active {
+            transform: translateY(0);
+        }
+
+        .mobile-menu a {
+            display: block;
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 1px solid rgba(0, 102, 255, 0.2);
+            transition: color 0.3s ease;
+        }
+
+        .mobile-menu a:hover {
+            color: var(--primary-color);
+        }
+
+        /* Hero Section */
+        .hero-mobile {
+            padding: 120px 1rem 3rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--bg-color), #1a1a1a);
+            position: relative;
+            overflow: hidden;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .hero-mobile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 20%, rgba(0, 102, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(0, 170, 255, 0.1) 0%, transparent 50%),
+                linear-gradient(45deg, rgba(0, 102, 255, 0.05) 0%, transparent 50%);
+            animation: heroGlow 6s ease-in-out infinite alternate;
+        }
+
+        .hero-mobile::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 2px,
+                    rgba(0, 102, 255, 0.03) 2px,
+                    rgba(0, 102, 255, 0.03) 4px
+                );
+            animation: scanLines 0.1s linear infinite;
+        }
+
+        /* Mobile Particle System */
+        .mobile-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.6;
+            animation: particleFloat 6s linear infinite;
+        }
+
+        .particle:nth-child(odd) {
+            animation-duration: 8s;
+            animation-delay: -2s;
+        }
+
+        .particle:nth-child(3n) {
+            animation-duration: 10s;
+            animation-delay: -4s;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Floating Cyber Elements */
+        .cyber-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            animation: floatIcon 8s ease-in-out infinite;
+        }
+
+        .cyber-shield {
+            width: 30px;
+            height: 30px;
+            background: var(--primary-color);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            opacity: 0.3;
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .cyber-shield-small {
+            width: 20px;
+            height: 20px;
+            background: var(--primary-color);
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+            opacity: 0.4;
+            box-shadow: 0 0 8px rgba(0, 102, 255, 0.4);
+        }
+
+        .cyber-lock {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--primary-color);
+            border-radius: 4px;
+            position: relative;
+            opacity: 0.3;
+        }
+
+        .cyber-lock::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 16px;
+            height: 12px;
+            border: 2px solid var(--primary-color);
+            border-bottom: none;
+            border-radius: 8px 8px 0 0;
+        }
+
+        .cyber-target {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--primary-color);
+            border-radius: 50%;
+            position: relative;
+            opacity: 0.3;
+        }
+
+        .cyber-target::before,
+        .cyber-target::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border: 1px solid var(--primary-color);
+            border-radius: 50%;
+        }
+
+        .cyber-target::before {
+            width: 16px;
+            height: 16px;
+        }
+
+        .cyber-target::after {
+            width: 8px;
+            height: 8px;
+            background: var(--primary-color);
+        }
+
+        .floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 60%; right: 15%; animation-delay: 2s; }
+        .floating-icon:nth-child(3) { top: 40%; left: 80%; animation-delay: 4s; }
+        .floating-icon:nth-child(4) { top: 80%; left: 20%; animation-delay: 6s; }
+        .floating-icon:nth-child(5) { top: 30%; right: 30%; animation-delay: 1s; }
+
+        .data-stream {
+            position: absolute;
+            width: 2px;
+            height: 20px;
+            background: linear-gradient(to bottom, transparent, var(--primary-color), transparent);
+            animation: dataFlow 3s linear infinite;
+        }
+
+        .data-stream:nth-child(6) { top: 10%; left: 20%; animation-delay: 0s; }
+        .data-stream:nth-child(7) { top: 30%; right: 25%; animation-delay: 1s; }
+        .data-stream:nth-child(8) { top: 70%; left: 70%; animation-delay: 2s; }
+
+        .cyber-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            opacity: 0.2;
+            animation: cyberLinePulse 4s ease-in-out infinite;
+        }
+
+        .cyber-line.horizontal {
+            width: 60px;
+            height: 1px;
+            top: 25%;
+            left: 30%;
+            animation-delay: 0.5s;
+        }
+
+        .cyber-line.vertical {
+            width: 1px;
+            height: 40px;
+            top: 45%;
+            right: 20%;
+            background: linear-gradient(180deg, transparent, var(--primary-color), transparent);
+            animation-delay: 1.5s;
+        }
+
+        .cyber-line.diagonal {
+            width: 40px;
+            height: 1px;
+            top: 65%;
+            left: 60%;
+            transform: rotate(45deg);
+            animation-delay: 2.5s;
+        }
+
+        .hero-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: white;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00aaff, #fff, #0066ff, #00aaff);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            filter: drop-shadow(0 0 15px rgba(0, 170, 255, 0.6));
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-color);
+            margin-bottom: 2rem;
+            line-height: 1.5;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .btn-mobile {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-mobile::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-mobile:active::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-mobile:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary-mobile {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.3);
+        }
+
+        .btn-primary-mobile:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 102, 255, 0.4);
+        }
+
+        .btn-secondary-mobile {
+            background: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-secondary-mobile:hover {
+            background: var(--primary-color);
+            color: white;
+        }
+
+        /* Services Section */
+        .services-mobile {
+            padding: 3rem 1rem;
+        }
+
+        .section-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .service-card-mobile {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .service-card-mobile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 102, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .service-card-mobile:hover::before {
+            left: 100%;
+        }
+
+        .service-card-mobile:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.3);
+            border-color: rgba(0, 102, 255, 0.6);
+        }
+
+        .service-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--primary-color);
+        }
+
+        .service-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.3rem;
+            color: white;
+            margin-bottom: 0.8rem;
+        }
+
+        .service-description {
+            color: var(--text-color);
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        /* Pricing Section */
+        .pricing-mobile {
+            padding: 3rem 1rem;
+            background: rgba(0, 102, 255, 0.05);
+        }
+
+        .pricing-cards-mobile {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .pricing-card-mobile {
+            background: var(--card-bg);
+            border: 2px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+            position: relative;
+            animation: pricingGlow 4s ease-in-out infinite;
+        }
+
+        .pricing-card-mobile.featured {
+            border-color: rgba(0, 102, 255, 0.3);
+            box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4);
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 170, 255, 0.02));
+            animation: featuredPricingGlow 3s ease-in-out infinite;
+        }
+
+        .pricing-tier {
+            font-family: 'Orbitron', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .pricing-name {
+            font-size: 1.1rem;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .pricing-price {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .pricing-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .pricing-features li {
+            padding: 0.5rem 0;
+            color: var(--text-color);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pricing-features li:last-child {
+            border-bottom: none;
+        }
+
+        /* Contact Section */
+        .contact-mobile {
+            padding: 3rem 1rem;
+        }
+
+        .contact-form-mobile {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem 1.5rem;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1);
+        }
+
+        .form-group-mobile {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group-mobile label {
+            display: block;
+            color: var(--primary-color);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group-mobile input,
+        .form-group-mobile textarea {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 8px;
+            background: rgba(20, 20, 20, 0.8);
+            color: var(--text-color);
+            font-size: 1rem;
+        }
+
+        .form-group-mobile input:focus,
+        .form-group-mobile textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 10px rgba(0, 102, 255, 0.3);
+        }
+
+        .form-group-mobile textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        /* Footer */
+        .footer-mobile {
+            background: rgba(10, 10, 10, 0.95);
+            border-top: 1px solid var(--primary-color);
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-text {
+            color: var(--text-color);
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        /* Animations */
+        @keyframes pixelPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(0.8); }
+        }
+
+        @keyframes heroGlow {
+            0% { opacity: 0.3; }
+            100% { opacity: 0.6; }
+        }
+
+        @keyframes scanLines {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(4px); }
+        }
+
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.3; }
+            25% { transform: translateY(-10px) rotate(5deg); opacity: 0.6; }
+            50% { transform: translateY(-20px) rotate(0deg); opacity: 0.8; }
+            75% { transform: translateY(-10px) rotate(-5deg); opacity: 0.6; }
+        }
+
+        @keyframes dataFlow {
+            0% { transform: translateY(-20px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(100vh); opacity: 0; }
+        }
+
+        @keyframes cyberLinePulse {
+            0%, 100% { opacity: 0.1; transform: scaleX(0.8); }
+            50% { opacity: 0.4; transform: scaleX(1.2); }
+        }
+
+        @keyframes particleFloat {
+            0% { 
+                transform: translateY(100vh) translateX(0px);
+                opacity: 0;
+            }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { 
+                transform: translateY(-10px) translateX(20px);
+                opacity: 0;
+            }
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 102, 255, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(0, 170, 255, 0.6); }
+        }
+
+        /* Statistics Section */
+        .stats-mobile {
+            padding: 3rem 1rem;
+            background: linear-gradient(135deg, rgba(0, 102, 255, 0.05), rgba(0, 170, 255, 0.02));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        .stat-card {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+            animation: pulseGlow 3s ease-in-out infinite;
+        }
+
+        .stat-number {
+            font-family: 'Orbitron', monospace;
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            opacity: 0.8;
+        }
+
+        /* Footer Links */
+        .footer-links {
+            margin-top: 1rem;
+            text-align: center;
+        }
+
+        .desktop-link {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 25px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+            background: rgba(0, 102, 255, 0.1);
+        }
+
+        .desktop-link:hover {
+            background: rgba(0, 102, 255, 0.2);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        /* Floating CTA Button */
+        .floating-cta {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 1000;
+            animation: floatBounce 2s ease-in-out infinite;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .floating-cta.scrolling-down {
+            top: 20px;
+            bottom: auto;
+            animation: none;
+        }
+
+        .floating-cta.scrolling-up {
+            bottom: 20px;
+            top: auto;
+            animation: floatBounce 2s ease-in-out infinite;
+        }
+
+        .floating-cta-btn {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 1rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 700;
+            box-shadow: 0 8px 25px rgba(0, 102, 255, 0.4);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .floating-cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 12px 35px rgba(0, 102, 255, 0.6);
+        }
+
+        @keyframes floatBounce {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes matrixFlow {
+            0% { background-position: 0 0; }
+            100% { background-position: 100px 0; }
+        }
+
+        @keyframes dataFlow {
+            0% { 
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            20% { 
+                opacity: 0.8;
+            }
+            80% { 
+                opacity: 0.8;
+            }
+            100% { 
+                transform: translateX(100vw);
+                opacity: 0;
+            }
+        }
+
+        /* Desktop Version Button */
+        .desktop-version-btn {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 999;
+        }
+
+        .desktop-btn {
+            background: rgba(0, 102, 255, 0.1);
+            color: var(--primary-color);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 25px;
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .desktop-btn:hover {
+            background: rgba(0, 102, 255, 0.2);
+            border-color: var(--primary-color);
+            transform: scale(1.05);
+        }
+
+        /* Canvas-based Matrix Digital Rain Effect */
+        .matrix-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0.7;
+            z-index: 10;
+        }
+
+        .matrix-canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        /* Faded CLI Windows Background */
+        .cli-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            opacity: 0.25;
+            z-index: 6;
+            overflow: hidden;
+        }
+
+        .cli-window {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(0, 200, 255, 0.6);
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 9px;
+            color: rgba(0, 255, 255, 0.7);
+            padding: 8px;
+            line-height: 1.2;
+            white-space: pre;
+            animation: cliTyping 15s linear infinite;
+            box-shadow: 0 0 10px rgba(0, 200, 255, 0.3);
+        }
+
+        @keyframes cliTyping {
+            0% { opacity: 0.25; }
+            50% { opacity: 0.4; }
+            100% { opacity: 0.25; }
+        }
+
+
+        /* Section Dividers */
+        .section-divider {
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary-color), transparent);
+            margin: 2rem 0;
+            opacity: 0.3;
+            animation: dividerPulse 3s ease-in-out infinite;
+        }
+
+        @keyframes dividerPulse {
+            0%, 100% { opacity: 0.2; }
+            50% { opacity: 0.5; }
+        }
+
+        @keyframes pricingGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 15px rgba(0, 102, 255, 0.1),
+                           0 0 20px rgba(0, 102, 255, 0.2);
+                border-color: rgba(0, 102, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 8px 25px rgba(0, 102, 255, 0.3),
+                           0 0 40px rgba(0, 102, 255, 0.4);
+                border-color: rgba(0, 102, 255, 0.6);
+            }
+        }
+
+        @keyframes featuredPricingGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 20px rgba(0, 102, 255, 0.4),
+                           0 0 30px rgba(0, 102, 255, 0.5),
+                           0 0 50px rgba(0, 102, 255, 0.3);
+                border-color: rgba(0, 102, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 8px 30px rgba(0, 102, 255, 0.6),
+                           0 0 50px rgba(0, 102, 255, 0.7),
+                           0 0 80px rgba(0, 102, 255, 0.4);
+                border-color: rgba(0, 102, 255, 0.6);
+            }
+        }
+
+        /* Testimonials Carousel */
+        .testimonials-mobile {
+            padding: 3rem 1rem;
+            background: var(--bg-color);
+        }
+
+        .testimonial-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(0, 102, 255, 0.3);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem 0;
+            backdrop-filter: blur(10px);
+            position: relative;
+        }
+
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-color);
+            margin-bottom: 1rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .testimonial-role {
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+
+        .quote-icon {
+            font-size: 3rem;
+            color: var(--primary-color);
+            opacity: 0.2;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Hide sections initially for fade-in effect */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-mobile">
+        <!-- Professional Data Stream Background -->
+        <div class="data-stream-bg" id="hero-data-stream">
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
+            <div class="data-stream-line"></div>
+        </div>
+        <!-- Professional Background Elements -->
+        <div class="professional-bg" id="hero-professional"></div>
+        <div class="cyber-elements">
+            <div class="floating-icon cyber-shield"></div>
+            <div class="floating-icon cyber-lock"></div>
+            <div class="floating-icon cyber-shield-small"></div>
+            <div class="floating-icon cyber-target"></div>
+            <div class="floating-icon cyber-shield"></div>
+            <div class="data-stream"></div>
+            <div class="data-stream"></div>
+            <div class="data-stream"></div>
+            <div class="cyber-line horizontal"></div>
+            <div class="cyber-line vertical"></div>
+            <div class="cyber-line diagonal"></div>
+        </div>
+        <div class="mobile-particles">
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+            <div class="particle"></div>
+        </div>
+        <div class="hero-content">
+            <h1 class="hero-title">RCA Security Group</h1>
+            <p class="hero-subtitle">
+                Professional cybersecurity consulting that protects your business from real-world threats. 
+                We don't just secure systems - we secure your future.
+            </p>
+            <div class="hero-buttons">
+                <a href="#services" class="btn-mobile btn-primary-mobile">
+                    🛡️ Our Services
+                </a>
+                <a href="#contact" class="btn-mobile btn-secondary-mobile">
+                    📞 Get Started
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-mobile">
+        <!-- Matrix Background -->
+        <div class="matrix-background" id="services-matrix"></div>
+        <h2 class="section-title">Our Services</h2>
+        
+        <!-- Get Started Card -->
+        <div class="service-card-mobile featured fade-in">
+            <div class="service-icon">🚀</div>
+            <h3 class="service-title">Get Started with RCA Security</h3>
+            <p class="service-description">
+                <strong>Free Security Discovery Call</strong><br>
+                Schedule a complimentary 30-minute consultation to discuss your security needs. No obligation, just expert guidance.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">Security Assessment</span>
+                <span class="feature-tag">Custom Recommendations</span>
+                <span class="feature-tag">Threat Analysis</span>
+                <span class="feature-tag">Next Steps Roadmap</span>
+            </div>
+        </div>
+        
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🛡️</div>
+            <h3 class="service-title">Penetration Testing</h3>
+            <p class="service-description">
+                Comprehensive security testing to identify vulnerabilities before attackers do.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">Web Applications</span>
+                <span class="feature-tag">Network Testing</span>
+                <span class="feature-tag">Wireless Security</span>
+                <span class="feature-tag">Social Engineering</span>
+            </div>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🔍</div>
+            <h3 class="service-title">Security Consulting</h3>
+            <p class="service-description">
+                Strategic security guidance and implementation support for your organization.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">Risk Assessments</span>
+                <span class="feature-tag">Compliance (NIST, CMMC)</span>
+                <span class="feature-tag">Policy Development</span>
+                <span class="feature-tag">Architecture Review</span>
+            </div>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">🔐</div>
+            <h3 class="service-title">Access & Identity Management</h3>
+            <p class="service-description">
+                Advanced identity management and access controls to secure your digital assets.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">Microsoft 365 Security</span>
+                <span class="feature-tag">MFA Setup</span>
+                <span class="feature-tag">Privileged Access</span>
+                <span class="feature-tag">Single Sign-On</span>
+            </div>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">📊</div>
+            <h3 class="service-title">Incident Response</h3>
+            <p class="service-description">
+                Full investigation to resolution when security incidents occur.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">24/7 Response</span>
+                <span class="feature-tag">Forensic Analysis</span>
+                <span class="feature-tag">Threat Containment</span>
+                <span class="feature-tag">Recovery Planning</span>
+            </div>
+        </div>
+
+        <div class="service-card-mobile fade-in">
+            <div class="service-icon">💼</div>
+            <h3 class="service-title">Security Operations</h3>
+            <p class="service-description">
+                Ongoing security monitoring, management, and optimization services.
+            </p>
+            <div class="service-features">
+                <span class="feature-tag">SOC Oversight</span>
+                <span class="feature-tag">Vulnerability Management</span>
+                <span class="feature-tag">Security Training</span>
+                <span class="feature-tag">Tabletop Exercises</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+    <!-- Statistics Section -->
+    <section class="stats-mobile">
+        <h2 class="section-title">Proven Track Record</h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="70">0</div>
+                <div class="stat-label">Years Combined Experience</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="100">0</div>
+                <div class="stat-label">Client Satisfaction %</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="2">0</div>
+                <div class="stat-label">Hours Response Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="50">0</div>
+                <div class="stat-label">Billion $ Company Experience</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider"></div>
+
+
+    <div class="section-divider"></div>
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-mobile">
+        <!-- Matrix Background -->
+        <div class="matrix-background" id="contact-matrix"></div>
+        <h2 class="section-title">Schedule Your Free Consultation</h2>
+        <p class="section-subtitle">Ready to improve your security posture? Let's start with a free discovery call.</p>
+        
+        <div class="contact-form-mobile fade-in">
+            <form id="contact-form-mobile">
+                <div class="form-group-mobile">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="company">Company</label>
+                    <input type="text" id="company" name="company">
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="service">Service Needed</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a Service</option>
+                        <option value="free-consultation">Free Security Discovery Call</option>
+                        <option value="penetration-testing">Penetration Testing</option>
+                        <option value="security-consulting">Security Consulting</option>
+                        <option value="incident-response">Incident Response</option>
+                        <option value="compliance">Compliance & Risk Assessment</option>
+                        <option value="web-development">Web Development</option>
+                    </select>
+                </div>
+                
+                <div class="form-group-mobile">
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" placeholder="Tell us about your security needs..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-mobile btn-primary-mobile">Schedule Free Consultation</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer-mobile">
+        <div class="footer-logo">
+            <div class="logo-icon">R</div>
+            <div class="logo-text">RCA SECURITY GROUP</div>
+        </div>
+        <p class="footer-text">
+            Professional cybersecurity consulting for modern businesses.<br>
+            © 2024 RCA Security Group. All rights reserved.
+        </p>
+        <div class="footer-links">
+            <a href="index.html?skip=true" class="desktop-link">
+                🖥️ View Desktop Version
+            </a>
+        </div>
+    </footer>
+
+    <!-- Floating CTA Button -->
+    <div class="floating-cta">
+        <a href="#contact" class="floating-cta-btn">
+            <span>🚀</span>
+            <span>Get Started</span>
+        </a>
+    </div>
+
+    <script>
+        // Mobile navigation removed
+
+        // Fade-in animation on scroll
+        function handleFadeIn() {
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach(element => {
+                const elementTop = element.getBoundingClientRect().top;
+                const elementVisible = 150;
+                
+                if (elementTop < window.innerHeight - elementVisible) {
+                    element.classList.add('visible');
+                }
+            });
+        }
+
+        // Contact form handling with EmailJS
+        document.getElementById('contact-form-mobile').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const company = formData.get('company');
+            const message = formData.get('message');
+            
+            // Simple validation
+            if (!name || !email || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+            
+            // Show loading state
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Send email using EmailJS
+            emailjs.send('service_your_service_id', 'template_your_template_id', {
+                from_name: name,
+                from_email: email,
+                company: company || 'Not provided',
+                message: message,
+                to_email: 'info@rcasecuritygroup.com'
+            })
+            .then(function(response) {
+                // Success
+                alert('Thank you! Your message has been sent successfully. We\'ll get back to you soon!');
+                document.getElementById('contact-form-mobile').reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, function(error) {
+                // Error - fallback to mailto
+                console.error('EmailJS failed:', error);
+                const subject = `Contact from ${name}${company ? ` at ${company}` : ''}`;
+                const body = `Name: ${name}\nEmail: ${email}${company ? `\nCompany: ${company}` : ''}\n\nMessage:\n${message}`;
+                const mailtoLink = `mailto:info@rcasecuritygroup.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+                window.location.href = mailtoLink;
+                alert('Email client opened. Please send the message manually.');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            });
+        });
+
+        // Professional Data Stream Effect
+        class ProfessionalDataStream {
+            constructor(container) {
+                this.container = container;
+                console.log('ProfessionalDataStream created for:', container.id);
+                // Simple professional background - no complex animations needed
+            }
+            
+            // Simple professional background - no complex animations needed
+        }
+        
+        function initProfessionalEffects() {
+            console.log('Initializing professional effects...');
+            const professionalContainers = ['hero-professional', 'services-professional', 'contact-professional'];
+            
+            professionalContainers.forEach(containerId => {
+                const container = document.getElementById(containerId);
+                if (!container) {
+                    console.log(`Container ${containerId} not found`);
+                    return;
+                }
+                
+                console.log(`Creating professional effect for ${containerId}`);
+                // Clear any existing content
+                container.innerHTML = '';
+                container.className = 'professional-background';
+                
+                // Initialize professional data stream
+                new ProfessionalDataStream(container);
+            });
+        }
+
+        // Initialize animations
+        window.addEventListener('scroll', handleFadeIn);
+        window.addEventListener('load', handleFadeIn);
+        window.addEventListener('load', initProfessionalEffects);
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+    </script>
+
+
+    <script>
+        // Animated Counter for Statistics
+        function animateCounter(element) {
+            const target = parseInt(element.getAttribute('data-target'));
+            const duration = 2000;
+            const step = target / (duration / 16);
+            let current = 0;
+
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    element.textContent = target + (element.parentElement.querySelector('.stat-label').textContent.includes('%') ? '%' : '+');
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 16);
+        }
+
+        // Intersection Observer for fade-in animations and counter
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                    
+                    // Animate counters
+                    if (entry.target.classList.contains('stat-card')) {
+                        const numberEl = entry.target.querySelector('.stat-number');
+                        if (numberEl && numberEl.textContent === '0') {
+                            animateCounter(numberEl);
+                        }
+                    }
+                }
+            });
+        }, observerOptions);
+
+        // Observe all fade-in elements
+        document.querySelectorAll('.fade-in, .stat-card, .testimonial-card').forEach(el => {
+            observer.observe(el);
+        });
+
+        // Floating CTA visibility and scroll direction detection
+        let lastScrollTop = 0;
+        let scrollTimeout;
+        const floatingCTA = document.querySelector('.floating-cta');
+        const heroButtons = document.querySelector('.hero-buttons');
+        const contactSection = document.querySelector('#contact');
+        
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const hero = document.querySelector('.hero-mobile');
+            const cyberElements = document.querySelector('.cyber-elements');
+            
+            // Parallax effect for hero
+            if (hero && scrolled < window.innerHeight) {
+                cyberElements.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+            
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            
+            // Clear existing timeout
+            clearTimeout(scrollTimeout);
+            
+            // Floating CTA visibility logic
+            if (floatingCTA) {
+                // Check if hero buttons are visible (top of page)
+                const heroRect = heroButtons.getBoundingClientRect();
+                const heroVisible = heroRect.top >= 0 && heroRect.bottom <= window.innerHeight;
+                
+                // Check if contact section is visible (bottom of page)
+                const contactRect = contactSection.getBoundingClientRect();
+                const contactVisible = contactRect.top <= window.innerHeight && contactRect.bottom >= 0;
+                
+                // Hide CTA if at top (hero buttons visible) or at bottom (contact visible)
+                if (heroVisible || contactVisible) {
+                    floatingCTA.style.display = 'none';
+                } else {
+                    floatingCTA.style.display = 'flex';
+                    
+                    // Determine scroll direction for position
+                    if (scrollTop > lastScrollTop && scrollTop > 100) {
+                        // Scrolling down - move to top
+                        floatingCTA.classList.remove('scrolling-up');
+                        floatingCTA.classList.add('scrolling-down');
+                    } else if (scrollTop < lastScrollTop) {
+                        // Scrolling up - move to bottom
+                        floatingCTA.classList.remove('scrolling-down');
+                        floatingCTA.classList.add('scrolling-up');
+                    }
+                    
+                    // Reset to default state after scrolling stops
+                    scrollTimeout = setTimeout(() => {
+                        if (scrollTop < 100) {
+                            floatingCTA.classList.remove('scrolling-down', 'scrolling-up');
+                        }
+                    }, 150);
+                }
+            }
+            
+            lastScrollTop = scrollTop;
+        });
+
+        // Add micro-interaction to service cards
+        document.querySelectorAll('.service-card-mobile').forEach(card => {
+            card.addEventListener('click', function() {
+                this.style.transform = 'translateY(-8px) scale(1.02)';
+                setTimeout(() => {
+                    this.style.transform = '';
+                }, 300);
+            });
+        });
+    </script>
+    <script src="security-config.js"></script>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your public key
+        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+    </script>
+</body>
+</html>

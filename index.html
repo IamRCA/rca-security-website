@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RCA Security Group - Advanced Cybersecurity Solutions</title>
+    <meta name="description" content="RCA Security Group provides cutting-edge cybersecurity consulting, penetration testing, and digital protection services for businesses worldwide.">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <!-- Particle Background -->
+    <div id="particles-container"></div>
+    
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <div class="logo-icon">R</div>
+                <div class="logo-text">
+                    <span class="logo-main">RCA</span>
+                    <span class="logo-subtitle">SECURITY GROUP</span>
+                </div>
+            </div>
+            <div class="nav-menu" id="nav-menu">
+                <a href="#home" class="nav-link">Home</a>
+                <a href="#services" class="nav-link">Services</a>
+                <a href="#about" class="nav-link">About</a>
+                <a href="#team" class="nav-link">Team</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+            <div class="hamburger" id="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="title-line">PROTECTING YOUR</span>
+                    <span class="title-line highlight">DIGITAL FRONTIER</span>
+                    <span class="title-line">WITH ADVANCED</span>
+                    <span class="title-line highlight">CYBERSECURITY</span>
+                </h1>
+                <p class="hero-description">
+                    RCA Security Group delivers cutting-edge cybersecurity solutions, 
+                    penetration testing, and digital protection services to safeguard 
+                    your business from evolving cyber threats.
+                </p>
+                <div class="hero-buttons">
+                    <button class="btn btn-primary" onclick="scrollToSection('services')">
+                        <span>EXPLORE SERVICES</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                    <button class="btn btn-secondary" onclick="scrollToSection('contact')">
+                        <span>GET STARTED</span>
+                        <i class="fas fa-shield-alt"></i>
+                    </button>
+                    <button class="btn btn-outline" onclick="downloadResource('security-checklist')">
+                        <span>FREE SECURITY CHECKLIST</span>
+                        <i class="fas fa-download"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="cyber-grid">
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                    <div class="grid-item"></div>
+                </div>
+                <div class="floating-icons">
+                    <i class="fas fa-shield-alt"></i>
+                    <i class="fas fa-lock"></i>
+                    <i class="fas fa-user-secret"></i>
+                    <i class="fas fa-bug"></i>
+                    <i class="fas fa-network-wired"></i>
+                </div>
+                <div class="cyber-lines">
+                    <div class="line line-1"></div>
+                    <div class="line line-2"></div>
+                    <div class="line line-3"></div>
+                </div>
+                <div class="data-stream">
+                    <div class="data-point"></div>
+                    <div class="data-point"></div>
+                    <div class="data-point"></div>
+                    <div class="data-point"></div>
+                    <div class="data-point"></div>
+                </div>
+            </div>
+        </div>
+        <div class="scroll-indicator">
+            <div class="scroll-arrow"></div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Cybersecurity Services</h2>
+                <p class="section-subtitle">Comprehensive protection for your digital infrastructure</p>
+            </div>
+            
+            <!-- Get Started Section -->
+            <div class="get-started-section">
+                <div class="get-started-card featured">
+                    <div class="get-started-header">
+                        <div class="get-started-icon">
+                            <i class="fas fa-rocket"></i>
+                        </div>
+                        <h3>Get Started with RCA Security</h3>
+                        <p class="get-started-subtitle">Your first step to better cybersecurity</p>
+                    </div>
+                    <div class="get-started-content">
+                        <h4>Free Security Discovery Call</h4>
+                        <p>Schedule a complimentary 30-minute consultation to discuss your security needs and challenges. No obligation, just expert guidance.</p>
+                        <div class="get-started-features">
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Security posture assessment</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Custom recommendations</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Priority threat analysis</span>
+                            </div>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span>Next steps roadmap</span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" onclick="scrollToSection('contact')">Schedule Your Free Call</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-shield-alt" style="color: #0088ff;"></i>
+                    </div>
+                    <h3>Penetration Testing</h3>
+                    <p>Comprehensive security testing to identify vulnerabilities before attackers do.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Web Application Testing</span>
+                        <span class="feature-tag">Network Penetration Testing</span>
+                        <span class="feature-tag">Wireless Security Assessment</span>
+                        <span class="feature-tag">Social Engineering Testing</span>
+                        <span class="feature-tag">Mobile Application Testing</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-search" style="color: #87ceeb;"></i>
+                    </div>
+                    <h3>Security Consulting</h3>
+                    <p>Strategic security guidance and implementation support for your organization.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Risk Assessments</span>
+                        <span class="feature-tag">Compliance Readiness (NIST, CMMC)</span>
+                        <span class="feature-tag">Policy Development</span>
+                        <span class="feature-tag">Security Architecture Review</span>
+                        <span class="feature-tag">Vendor Risk Management</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-key" style="color: #ff8c00;"></i>
+                    </div>
+                    <h3>Access & Identity Management</h3>
+                    <p>Advanced identity management and access controls to secure your digital assets.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Microsoft 365 / Entra AD Security</span>
+                        <span class="feature-tag">MFA & Conditional Access Setup</span>
+                        <span class="feature-tag">Privileged Access Management</span>
+                        <span class="feature-tag">Identity Governance</span>
+                        <span class="feature-tag">Single Sign-On Implementation</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-chart-line" style="color: #00ff88;"></i>
+                    </div>
+                    <h3>Incident Response</h3>
+                    <p>Full investigation to resolution when security incidents occur.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">24/7 Incident Response</span>
+                        <span class="feature-tag">Forensic Analysis</span>
+                        <span class="feature-tag">Threat Containment</span>
+                        <span class="feature-tag">Recovery Planning</span>
+                        <span class="feature-tag">Post-Incident Review</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-briefcase" style="color: #d2691e;"></i>
+                    </div>
+                    <h3>Security Operations</h3>
+                    <p>Ongoing security monitoring, management, and optimization services.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">SOC Oversight</span>
+                        <span class="feature-tag">Vulnerability Management</span>
+                        <span class="feature-tag">Security Training</span>
+                        <span class="feature-tag">Tabletop Exercises</span>
+                        <span class="feature-tag">Security Metrics & Reporting</span>
+                    </div>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i class="fas fa-code" style="color: #9370db;"></i>
+                    </div>
+                    <h3>Web Development & Design</h3>
+                    <p>Secure, modern websites and applications built with security-first principles.</p>
+                    <div class="service-features">
+                        <span class="feature-tag">Secure Coding Practices</span>
+                        <span class="feature-tag">Modern UI/UX Design</span>
+                        <span class="feature-tag">Performance Optimization</span>
+                        <span class="feature-tag">Security Integration</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text">
+                    <h2 class="section-title">About RCA Security Group</h2>
+                    <p class="about-description">
+                        RCA Security Group is a boutique cybersecurity firm founded by experienced professionals 
+                        who have built and led security programs at multi-billion dollar companies. As the first cybersecurity hire 
+                        at a major corporation, our founder built their entire cybersecurity department and established their first formal 
+                        security program. Based in Richmond, VA with nationwide presence, we bring enterprise-level expertise 
+                        to businesses of all sizes. Our focused team delivers personalized service backed by real-world experience 
+                        in risk management, compliance, and security operations.
+                    </p>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number" data-target="70">0</div>
+                            <div class="stat-label">Years Combined Experience</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-target="100">0</div>
+                            <div class="stat-label">Client Satisfaction %</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-target="2">0</div>
+                            <div class="stat-label">Hours Response Time</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number" data-target="50">0</div>
+                            <div class="stat-label">Billion $ Company Experience</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-visual">
+                    <div class="certification-badges">
+                        <div class="badge">
+                            <i class="fas fa-certificate"></i>
+                            <span>CISSP</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>CEH</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-network-wired"></i>
+                            <span>CCNA</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-lock"></i>
+                            <span>Security+</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fas fa-desktop"></i>
+                            <span>CompTIA A+</span>
+                        </div>
+                        <div class="badge">
+                            <i class="fab fa-linux"></i>
+                            <span>Linux+</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="team">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Our Expert Team</h2>
+                <p class="section-subtitle">Certified cybersecurity professionals with decades of combined experience</p>
+            </div>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-status online"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Principal Security Consultant</h3>
+                        <p class="member-title">Founder & Lead Security Expert</p>
+                        <p class="member-experience">Built Major Corporation's Cybersecurity Department from Ground Up</p>
+                        <div class="member-certs">
+                            <div class="cert-badge">
+                                <i class="fas fa-certificate"></i>
+                                <span>CISSP</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>CEH</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-network-wired"></i>
+                                <span>CCNA</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-lock"></i>
+                                <span>Security+</span>
+                            </div>
+                        </div>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Security Operations</span>
+                            <span class="expertise-tag">Risk Management</span>
+                            <span class="expertise-tag">Compliance</span>
+                            <span class="expertise-tag">Incident Response</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-status online"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Senior Penetration Tester</h3>
+                        <p class="member-title">Security Testing Specialist</p>
+                        <p class="member-experience">Expert in Vulnerability Assessment</p>
+                        <div class="member-certs">
+                            <div class="cert-badge">
+                                <i class="fas fa-lock"></i>
+                                <span>CEH</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-search"></i>
+                                <span>OSCP</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Security+</span>
+                            </div>
+                        </div>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Penetration Testing</span>
+                            <span class="expertise-tag">Vulnerability Assessment</span>
+                            <span class="expertise-tag">Web Security</span>
+                            <span class="expertise-tag">Network Security</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-status online"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Security Operations Specialist</h3>
+                        <p class="member-title">SOC & Incident Response Expert</p>
+                        <p class="member-experience">Cybersecurity Operations Professional</p>
+                        <div class="member-certs">
+                            <div class="cert-badge">
+                                <i class="fas fa-balance-scale"></i>
+                                <span>GCIH</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-file-contract"></i>
+                                <span>GCFA</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-clipboard-check"></i>
+                                <span>Security+</span>
+                            </div>
+                        </div>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Incident Response</span>
+                            <span class="expertise-tag">SOC Operations</span>
+                            <span class="expertise-tag">Forensics</span>
+                            <span class="expertise-tag">Threat Hunting</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-status online"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Information Security Consultant</h3>
+                        <p class="member-title">Compliance & Risk Management Expert</p>
+                        <p class="member-experience">Information Security Professional</p>
+                        <div class="member-certs">
+                            <div class="cert-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>CISSP</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-lock"></i>
+                                <span>CISM</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-clipboard-check"></i>
+                                <span>CRISC</span>
+                            </div>
+                        </div>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Risk Assessment</span>
+                            <span class="expertise-tag">Compliance</span>
+                            <span class="expertise-tag">Policy Development</span>
+                            <span class="expertise-tag">Audit Management</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="team-member">
+                    <div class="member-photo">
+                        <div class="photo-placeholder">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div class="member-status online"></div>
+                    </div>
+                    <div class="member-info">
+                        <h3>Data Security Specialist</h3>
+                        <p class="member-title">Enterprise Data Management Expert</p>
+                        <p class="member-experience">25+ Years Enterprise Experience</p>
+                        <div class="member-certs">
+                            <div class="cert-badge">
+                                <i class="fas fa-database"></i>
+                                <span>Data Security</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-shield-alt"></i>
+                                <span>Enterprise</span>
+                            </div>
+                            <div class="cert-badge">
+                                <i class="fas fa-chart-line"></i>
+                                <span>Management</span>
+                            </div>
+                        </div>
+                        <div class="member-expertise">
+                            <span class="expertise-tag">Data Security</span>
+                            <span class="expertise-tag">Enterprise Systems</span>
+                            <span class="expertise-tag">Risk Management</span>
+                            <span class="expertise-tag">Compliance</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">Schedule Your Free Consultation</h2>
+                <p class="section-subtitle">Ready to improve your security posture? Let's start with a free discovery call.</p>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Email</h4>
+                            <p>info@rcasecuritygroup.com</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Phone Consultation</h4>
+                            <p>Contact us for phone consultation</p>
+                        </div>
+                    </div>
+                    <div class="contact-item">
+                        <div class="contact-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="contact-details">
+                            <h4>Location</h4>
+                            <p>Richmond, VA • Nationwide Services</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form">
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <input type="text" id="name" name="name" required>
+                            <label for="name">Your Name</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="email" name="email" required>
+                            <label for="email">Email Address</label>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="company" name="company">
+                            <label for="company">Company (Optional)</label>
+                        </div>
+                        <div class="form-group">
+                            <select id="service" name="service" required>
+                                <option value="">Select a Service</option>
+                                <option value="free-consultation">Free Security Discovery Call</option>
+                                <option value="penetration-testing">Penetration Testing</option>
+                                <option value="security-consulting">Security Consulting</option>
+                                <option value="incident-response">Incident Response</option>
+                                <option value="compliance">Compliance & Risk Assessment</option>
+                                <option value="web-development">Web Development</option>
+                            </select>
+                            <label for="service">Service Needed</label>
+                        </div>
+                        <div class="form-group">
+                            <textarea id="message" name="message" rows="5" required></textarea>
+                            <label for="message">Message</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Schedule Free Consultation</span>
+                            <i class="fas fa-calendar-alt"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="logo-icon">R</div>
+                    <div class="logo-text">
+                        <span class="logo-main">RCA</span>
+                        <span class="logo-subtitle">SECURITY GROUP</span>
+                    </div>
+                </div>
+                <div class="footer-links">
+                    <a href="#home">Home</a>
+                    <a href="#services">Services</a>
+                    <a href="#about">About</a>
+                    <a href="#contact">Contact</a>
+                </div>
+                <div class="footer-social">
+                    <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-github"></i></a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 RCA Security Group. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="security-config.js"></script>
+    <script src="script.js"></script>
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        // Initialize EmailJS with your public key
+        emailjs.init('YOUR_PUBLIC_KEY'); // Replace with your EmailJS public key
+    </script>
+</body>
+</html>
